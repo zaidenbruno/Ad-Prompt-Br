@@ -1,0 +1,50 @@
+{
+  "entities": {
+    "Generation": {
+      "title": "Generation",
+      "description": "A generated ad creative and prompt set.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The ID of the user who created this generation." },
+        "inputs": {
+          "type": "object",
+          "properties": {
+            "niche": { "type": "string" },
+            "location": { "type": "string" },
+            "objective": { "type": "string" },
+            "promo": { "type": "string" },
+            "audience": { "type": "string" },
+            "variations": { "type": "number" }
+          },
+          "required": ["niche", "location", "objective", "promo", "audience", "variations"]
+        },
+        "outputs": {
+          "type": "object",
+          "properties": {
+            "prompts": { "type": "array", "items": { "type": "string" } },
+            "copy": {
+              "type": "object",
+              "properties": {
+                "primaryText": { "type": "string" },
+                "headline": { "type": "string" },
+                "description": { "type": "string" }
+              },
+              "required": ["primaryText", "headline", "description"]
+            },
+            "hooks": { "type": "array", "items": { "type": "string" } },
+            "prediction": { "type": "string" }
+          },
+          "required": ["prompts", "copy", "hooks", "prediction"]
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "inputs", "outputs", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/generations/{generationId}": {
+      "schema": { "$ref": "#/entities/Generation" },
+      "description": "Stores all generated ad creatives."
+    }
+  }
+}
