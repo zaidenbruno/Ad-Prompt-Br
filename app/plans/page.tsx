@@ -25,8 +25,12 @@ export default function PlansPage() {
       return;
     }
     
-    // Placeholder para integração com Stripe
-    alert('Integração com Stripe em breve! Você será redirecionado para o checkout.');
+    // Redirecionamento para Hotmart
+    const hotmartUrl = new URL('https://pay.hotmart.com/W104924135B');
+    if (user.email) {
+      hotmartUrl.searchParams.append('email', user.email);
+    }
+    window.location.href = hotmartUrl.toString();
   };
 
   if (loading) {
@@ -45,7 +49,7 @@ export default function PlansPage() {
             Escolha o plano ideal para você
           </h1>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto">
-            Escale seus resultados com criativos que convertem. Sem fidelidade, cancele quando quiser.
+            Escale seus resultados com criativos que convertem. Pagamento único, acesso vitalício.
           </p>
         </div>
 
@@ -90,10 +94,9 @@ export default function PlansPage() {
             <div className="absolute top-0 right-0 bg-rose-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
               Mais popular
             </div>
-            <h3 className="text-2xl font-bold text-white mb-2">Pro Viral</h3>
+            <h3 className="text-2xl font-bold text-white mb-2">Acesso Vitalício</h3>
             <div className="flex items-baseline gap-2 mb-6">
-              <span className="text-4xl font-black text-white">R$ 29,90</span>
-              <span className="text-zinc-400">/mês</span>
+              <span className="text-4xl font-black text-white">R$ 19,90</span>
             </div>
             <p className="text-zinc-400 mb-8">Para gestores e donos de negócio que querem escalar.</p>
             
@@ -128,7 +131,7 @@ export default function PlansPage() {
               onClick={handleSubscribe} 
               className="w-full py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold transition-all shadow-[0_0_20px_-5px_rgba(225,29,72,0.4)] hover:shadow-[0_0_30px_-5px_rgba(225,29,72,0.6)] flex items-center justify-center gap-2"
             >
-              Assinar agora
+              Garantir Acesso
               <ArrowRight className="w-5 h-5" />
             </button>
           </div>
@@ -136,7 +139,7 @@ export default function PlansPage() {
 
         <div className="mt-16 text-center">
           <p className="text-zinc-500 text-sm">
-            Pagamento seguro via Stripe. Cancele a qualquer momento.
+            Pagamento seguro via Hotmart. Acesso vitalício.
           </p>
         </div>
       </div>

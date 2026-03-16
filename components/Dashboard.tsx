@@ -4,12 +4,13 @@ import { useState } from 'react';
 import { useAuth } from './AuthProvider';
 import { supabase } from '../lib/supabase';
 import { generateAdCreatives } from '../lib/gemini';
-import { Copy, Check, Loader2, Sparkles, Target, MapPin, Tag, Users, Hash, Download, FileText, Image as ImageIcon } from 'lucide-react';
+import { Copy, Check, Loader2, Sparkles, Target, MapPin, Tag, Users, Hash, Download, FileText, Image as ImageIcon, Lock } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
+import Link from 'next/link';
 
 export function Dashboard() {
-  const { user } = useAuth();
+  const { user, isPro } = useAuth();
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
   const [results, setResults] = useState<any | null>(null);
@@ -142,15 +143,20 @@ export function Dashboard() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setModelType('pro')}
-                  className={`flex items-center justify-center gap-2 px-2 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                  onClick={() => isPro ? setModelType('pro') : null}
+                  className={`relative flex items-center justify-center gap-2 px-2 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                     modelType === 'pro'
                       ? 'bg-rose-600 text-white shadow-sm'
                       : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
-                  }`}
+                  } ${!isPro ? 'opacity-70 cursor-not-allowed' : ''}`}
                 >
                   <span className="text-base shrink-0">🧠</span> 
                   <span className="truncate">Qualidade (Pro)</span>
+                  {!isPro && (
+                    <Link href="/plans" className="absolute -top-2 -right-2 bg-rose-600 text-white p-1 rounded-full shadow-lg hover:scale-110 transition-transform">
+                      <Lock size={12} />
+                    </Link>
+                  )}
                 </button>
               </div>
             </div>

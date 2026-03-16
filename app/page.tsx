@@ -28,6 +28,29 @@ export default function LandingPage() {
     }
   };
 
+  const handleSubscribeClick = async () => {
+    if (!user) {
+      try {
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: `${window.location.origin}/auth/callback`
+          }
+        });
+        if (error) throw error;
+      } catch (error: any) {
+        alert(error.message || 'Erro no login com Google');
+      }
+      return;
+    }
+    
+    const hotmartUrl = new URL('https://pay.hotmart.com/W104924135B');
+    if (user.email) {
+      hotmartUrl.searchParams.append('email', user.email);
+    }
+    window.location.href = hotmartUrl.toString();
+  };
+
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-[#121212]">
@@ -175,10 +198,9 @@ export default function LandingPage() {
               <div className="absolute top-0 right-0 bg-rose-600 text-white text-xs font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
                 Mais popular
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Pro Viral</h3>
+              <h3 className="text-2xl font-bold text-white mb-2">Acesso Vitalício</h3>
               <div className="flex items-baseline gap-2 mb-6">
-                <span className="text-4xl font-black text-white">R$ 29,90</span>
-                <span className="text-zinc-400">/mês</span>
+                <span className="text-4xl font-black text-white">R$ 19,90</span>
               </div>
               <p className="text-zinc-400 mb-8">Para gestores e donos de negócio que querem escalar.</p>
               <ul className="space-y-4 mb-8">
@@ -199,8 +221,8 @@ export default function LandingPage() {
                   <span>Histórico vitalício</span>
                 </li>
               </ul>
-              <button onClick={handleCtaClick} className="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold transition-colors shadow-[0_0_20px_-5px_rgba(225,29,72,0.4)]">
-                Assinar Pro
+              <button onClick={handleSubscribeClick} className="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold transition-colors shadow-[0_0_20px_-5px_rgba(225,29,72,0.4)]">
+                Garantir Acesso
               </button>
             </div>
           </div>
