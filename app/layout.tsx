@@ -4,7 +4,7 @@ import { AuthProvider } from '../components/AuthProvider';
 import { Navbar } from '../components/Navbar';
 
 export const metadata: Metadata = {
-  title: 'AdPrompt BR',
+  title: 'Ad Prompt BR',
   description: 'Gerador de criativos e prompts para Meta Ads',
 };
 

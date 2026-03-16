@@ -126,35 +126,34 @@ export function Dashboard() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="mb-6">
-  <label className="block text-sm font-medium text-zinc-300 mb-2">Modelo de IA</label>
-  <div className="inline-flex items-center bg-[#242424] rounded-lg border border-zinc-700 overflow-hidden shadow-sm">
-    <button
-      type="button"
-      onClick={() => setModelType('flash')}
-      className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
-        modelType === 'flash'
-          ? 'bg-rose-600 text-white shadow-inner'
-          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
-      }`}
-    >
-      <span className="text-base">⚡</span> Rápido (Flash)
-    </button>
-
-    <div className="w-px h-5 bg-zinc-700" /> {/* linha divisória fina */}
-
-    <button
-      type="button"
-      onClick={() => setModelType('pro')}
-      className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
-        modelType === 'pro'
-          ? 'bg-rose-600 text-white shadow-inner'
-          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
-      }`}
-    >
-      <span className="text-base">🧠</span> Qualidade Alta (Pro)
-    </button>
-  </div>
-</div>
+              <label className="block text-sm font-medium text-zinc-300 mb-2">Modelo de IA</label>
+              <div className="grid grid-cols-2 gap-1 bg-[#242424] p-1 rounded-xl border border-zinc-700 shadow-sm">
+                <button
+                  type="button"
+                  onClick={() => setModelType('flash')}
+                  className={`flex items-center justify-center gap-2 px-2 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    modelType === 'flash'
+                      ? 'bg-rose-600 text-white shadow-sm'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                  }`}
+                >
+                  <span className="text-base shrink-0">⚡</span> 
+                  <span className="truncate">Rápido (Flash)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setModelType('pro')}
+                  className={`flex items-center justify-center gap-2 px-2 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                    modelType === 'pro'
+                      ? 'bg-rose-600 text-white shadow-sm'
+                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+                  }`}
+                >
+                  <span className="text-base shrink-0">🧠</span> 
+                  <span className="truncate">Qualidade (Pro)</span>
+                </button>
+              </div>
+            </div>
 
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">

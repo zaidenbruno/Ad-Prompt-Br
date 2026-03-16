@@ -101,7 +101,7 @@ export default function LandingPage() {
       {/* Benefits Section */}
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Por que o AdPrompt BR funciona?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Por que o Ad Prompt BR funciona?</h2>
           <p className="text-zinc-400 max-w-2xl mx-auto">Nossa IA foi treinada com os melhores anúncios do mercado brasileiro para entregar resultados reais.</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -212,7 +212,7 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-2">
             <span className="text-xl">🚀</span>
-            <span className="font-bold text-lg text-white">AdPrompt BR</span>
+            <span className="font-bold text-lg text-white">Ad Prompt BR</span>
           </div>
           <div className="flex gap-6 text-sm text-zinc-500">
             <a href="#" className="hover:text-zinc-300 transition-colors">Termos de Uso</a>
@@ -220,7 +220,7 @@ export default function LandingPage() {
             <a href="#" className="hover:text-zinc-300 transition-colors">Contato</a>
           </div>
           <div className="text-sm text-zinc-600">
-            © 2026 AdPrompt BR. Todos os direitos reservados.
+            © 2026 Ad Prompt BR. Todos os direitos reservados.
           </div>
         </div>
       </footer>

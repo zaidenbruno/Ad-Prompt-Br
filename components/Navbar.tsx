@@ -45,24 +45,24 @@ export function Navbar() {
           <div className="flex items-center gap-4">
             <Link 
               href="/"
-              className="p-2 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 rounded-lg transition-colors"
+              className="p-2 text-zinc-100 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
               title="Início"
             >
               <HomeIcon size={20} />
             </Link>
             <Link href="/" className="flex items-center gap-2">
               <span className="text-2xl">🚀</span>
-              <span className="font-bold text-xl tracking-tight hidden sm:block text-zinc-100">AdPrompt BR</span>
+              <span className="font-bold text-xl tracking-tight hidden sm:block text-zinc-100">Ad Prompt BR</span>
             </Link>
           </div>
           
           <div className="flex items-center gap-4 relative" ref={dropdownRef}>
             {user && (
-              <Link href="/dashboard" className="text-sm font-medium text-zinc-400 hover:text-zinc-100 transition-colors hidden sm:block">
+              <Link href="/dashboard" className="text-sm font-medium text-zinc-100 hover:text-white transition-colors hidden sm:block">
                 Dashboard
               </Link>
             )}
-            <Link href="/plans" className="text-sm font-medium text-zinc-400 hover:text-zinc-100 transition-colors hidden sm:block">
+            <Link href="/plans" className="text-sm font-medium text-zinc-100 hover:text-white transition-colors hidden sm:block">
               Planos
             </Link>
 
