@@ -67,10 +67,10 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto text-center space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-4">
             <SparklesIcon className="w-4 h-4" />
-            <span>A revolução dos anúncios locais chegou</span>
+            <span>A revolução dos anúncios chegou</span>
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.1]">
-            Crie criativos virais para <br className="hidden md:block" />
+            Crie anúncios virais para <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">
               Meta Ads em segundos
             </span> com IA
@@ -79,7 +79,7 @@ export default function LandingPage() {
             Diferente do ChatGPT genérico, o AdPrompt BR já vem treinado com estrutura que converte no Brasil: gírias reais, urgência local, CTA matador e prompts prontos pra imagem.
           </p>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Domine seu nicho no Brasil. Gere copys persuasivas, ganchos magnéticos e prompts visuais para atrair clientes, visitas na loja física e vender mais, gastando menos.
+            Domine seu nicho no Brasil. Gere copys de impacto, ganchos magnéticos e prompts visuais para atrair clientes, visitas na loja física e vender mais, gastando menos.
           </p>
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
