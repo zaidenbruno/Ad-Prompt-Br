@@ -75,6 +75,9 @@ export default function LandingPage() {
               Meta Ads em segundos
             </span> com IA
           </h1>
+          <p className="text-lg md:text-xl font-bold text-rose-100 max-w-3xl mx-auto leading-relaxed bg-rose-900/20 border border-rose-500/20 p-4 rounded-2xl">
+            Diferente do ChatGPT genérico, o AdPrompt BR já vem treinado com estrutura que converte no Brasil: gírias reais, urgência local, CTA matador e prompts prontos pra imagem.
+          </p>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             Domine seu nicho no Brasil. Gere copys persuasivas, ganchos magnéticos e prompts visuais para atrair clientes, visitas na loja física e vender mais, gastando menos.
           </p>
@@ -130,6 +133,13 @@ export default function LandingPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-[#1A1A1A] border border-zinc-800 p-8 rounded-3xl hover:border-rose-500/30 transition-colors group">
             <div className="w-14 h-14 bg-rose-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Clock className="w-7 h-7 text-rose-400" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-3">Adeus, ChatGPT genérico</h3>
+            <p className="text-zinc-400 leading-relaxed">Pare de perder tempo escrevendo prompt do zero. Aqui a IA já sabe exatamente o que funciona pra loja física, WhatsApp e Meta Ads BR.</p>
+          </div>
+          <div className="bg-[#1A1A1A] border border-zinc-800 p-8 rounded-3xl hover:border-rose-500/30 transition-colors group">
+            <div className="w-14 h-14 bg-rose-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
               <Zap className="w-7 h-7 text-rose-400" />
             </div>
             <h3 className="text-xl font-bold text-white mb-3">Geração em segundos</h3>
@@ -141,13 +151,6 @@ export default function LandingPage() {
             </div>
             <h3 className="text-xl font-bold text-white mb-3">Copy + Prompts prontos</h3>
             <p className="text-zinc-400 leading-relaxed">Receba a copy persuasiva, ganchos virais e os prompts exatos para gerar as imagens no Midjourney.</p>
-          </div>
-          <div className="bg-[#1A1A1A] border border-zinc-800 p-8 rounded-3xl hover:border-rose-500/30 transition-colors group">
-            <div className="w-14 h-14 bg-rose-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-              <Clock className="w-7 h-7 text-rose-400" />
-            </div>
-            <h3 className="text-xl font-bold text-white mb-3">Histórico ilimitado</h3>
-            <p className="text-zinc-400 leading-relaxed">Salve todos os seus criativos gerados para consultar, copiar e reutilizar quando quiser.</p>
           </div>
           <div className="bg-[#1A1A1A] border border-zinc-800 p-8 rounded-3xl hover:border-rose-500/30 transition-colors group">
             <div className="w-14 h-14 bg-rose-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
