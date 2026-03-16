@@ -9,85 +9,82 @@ export async function generateAdCreatives(inputs: {
   promo: string;
   audience: string;
   variations: number;
-}) {
+}, modelType: 'flash' | 'pro' = 'flash') {
   const prompt = `
-Você é o melhor copywriter e estrategista de tráfego pago local do Brasil em 2026, especialista em anúncios virais de ALTÍSSIMA CONVERSÃO para negócios físicos (lojas de roupa barata, fast fashion R$19,90, etc). Seu estilo é 100% humano, conversacional, emocional, usa português brasileiro cotidiano com gírias leves, emojis estratégicos 🔥💃😱, perguntas retóricas, dores reais e promessas ousadas.
+Você é o melhor copywriter e estrategista de Meta Ads do Brasil em 2026, especialista em criativos locais de ALTÍSSIMA CONVERSÃO para lojas físicas e online. Seu estilo é 100% humano, brasileiro informal, emocional, com gírias leves quando encaixa (mano, cara, tá ligado, corre, enlouqueceu, voando), emojis estratégicos 🔥💥👇😱💸, perguntas que doem, dores reais e promessas ousadas.
 
-Sua tarefa é gerar criativos otimizados para Meta Ads com base nas informações abaixo:
+Regras OBRIGATÓRIAS para TODA geração:
+- Sempre leia o Objetivo Principal do usuário e adapte TODO o copy, tom, gatilhos e CTA para ele.
+- Gere sempre ${inputs.variations} variações completas (headline + texto principal + descrição + hook inicial + prompt imagem).
+- Use linguagem que converte alto no público BR (mulheres/homens 18-45, classe C/B, foco em preço baixo, urgência, emoção local).
+- Inclua previsão rápida de performance no início (CTR alto/baixo esperado + por quê).
+- No final: CTA forte e específico.
 
+Regras por Objetivo Principal (obrigatório adaptar):
+
+- "Visitas na loja física": Foco total em loja física. Gatilhos: urgência "hoje/acaba hoje", endereço/cidade, "corre antes que acabe", "vem ver pessoalmente", "experimenta na loja". CTA: "Vem pra loja agora!", "Corre pra [cidade] antes que voe!". Prompts imagem: foto real de loja lotada, placa preço, gente feliz experimentando.
+
+- "Vendas online": Foco em compra online. Gatilhos: "clica no link", "compra agora", "entrega rápida", "frete grátis/promo", "estoque acabando". CTA: "Clica no link e compra agora!", "Link na bio antes que acabe!". Prompts imagem: produto em destaque, botão "Comprar", celular na mão.
+
+- "Mensagens WhatsApp": Foco em conversa no zap. Gatilhos: "Manda zap agora", "reservar peça", "falar com atendente", "foto da peça no zap". CTA: "Manda zap pra reservar!", "Clica e fala comigo no WhatsApp!". Prompts imagem: celular com chat aberto, atendente sorrindo, produto + "Manda zap".
+
+- "Tráfego para site": Foco em cliques no site. Gatilhos: "clica pra ver mais", "link na bio/site", "confira tudo no site", "estoque online". CTA: "Clica no link e confere tudo!", "Acessa o site agora!". Prompts imagem: site aberto no celular, produto com botão "Ver mais".
+
+- "Visitas pro perfil do Instagram": Foco em engajamento no Insta. Gatilhos: "visita meu perfil", "segue pra ver mais", "olha os destaques", "salva e marca amiga", "DM pra mais info". CTA: "Visita meu perfil agora!", "Segue e confere tudo lá!", "Salva esse post e marca quem precisa!". Prompts imagem: tela de perfil do Insta bonito, destaques coloridos, stories abertos, gente salvando post.
+
+Informações da Campanha:
 Nicho: ${inputs.niche}
 Localização: ${inputs.location}
 Objetivo: ${inputs.objective}
 Promoção/Destaque: ${inputs.promo}
 Público-alvo: ${inputs.audience}
-Número de variações de imagem (prompts): ${inputs.variations} (gere entre 5 a 10)
 
-### REGRAS OBRIGATÓRIAS:
-1. COPY (Meta Ads):
-   - Primary Text: Comece chamando a atenção local ("Ei você de ${inputs.location} e Região!"). Use perguntas ("Quer ficar linda gastando pouco?"). Linguagem informal, emojis 🔥💃. CTA forte e urgente ("Corre pra loja antes que acabe!", "Clica no botão abaixo agora!").
-   - Headline: Curta, chamativa, focada no preço ou benefício principal.
-   - Description: Gatilho de urgência ou prova social curta.
-
-2. PROMPTS (Midjourney/Leonardo):
-   - Gere prompts em INGLÊS.
-   - Descrições visuais virais: fotos reais de loja (UGC style), modelo brasileira sorrindo segurando sacolas ou vestindo roupa barata, cores vibrantes, iluminação natural, urgência.
-   - Inclua instruções de texto overlay (ex: text "R$19,90" written boldly, neon sign, sale tag).
-   - Estilo hiper-realista, foto de iPhone, iluminação de provador ou rua movimentada.
-
-3. HOOKS (Ganchos Iniciais para Vídeo/Carrossel):
-   - Crie 3 a 5 ganchos absurdamente fortes.
-   - Exemplo 1: Meme local ou situação relatable ("Quando você descobre a loja secreta de ${inputs.location}...").
-   - Exemplo 2: Depoimento fake realista ("Gente, eu não acreditei quando vi o preço dessa calça...").
-   - Exemplo 3: Choque de realidade ("Pare de pagar R$100 em blusinha!").
-
-4. PREVISÃO DE PERFORMANCE:
-   - Simples e direta. Ex: "Alto CTR esperado por preço baixo + emoção + chamada local forte".
-
-### EXEMPLOS DE ALTA CONVERSÃO (Few-Shot):
-
-Exemplo 1 (Loja de R$20):
-- Primary Text: "Ei você de Campinas e Região! 😱 Quer renovar o guarda-roupa inteiro sem estourar o limite do cartão? 💃 Chegou a nova coleção da [Nome da Loja] e tá TUDO por R$20! É isso mesmo, blusinhas, shorts, vestidos... qualquer peça! Mas ó, o estoque voa. Corre pra loja antes que acabe! 👇 Clica no botão e pega o endereço no WhatsApp!"
-- Headline: TUDO POR R$20! 😱🔥
-- Description: Estoque limitado. Garanta a sua!
-- Hooks: ["Gente do céu, olha o que eu achei no centro de Campinas!", "Fui na loja de R$20 e saí com 5 sacolas..."]
-
-Exemplo 2 (Moda Plus Size Barata):
-- Primary Text: "Atenção meninas de São Paulo! ✨ Cansada de procurar roupa Plus Size linda e só achar peça cara e sem graça? Seus problemas acabaram! Chegou o feirão de fábrica com peças até o G4 por preço de banana! 🍌👗 Vem ficar maravilhosa gastando pouco. Chama no zap pra ver o catálogo ou corre pro endereço! 🏃‍♀️💨"
-- Headline: Moda Plus Size a preço de custo! ✨
-- Description: Mais de 500 modelos disponíveis.
+Estrutura da resposta JSON:
+{
+  "prediction": "Previsão de Performance (1 frase curta + motivo)",
+  "variations": [
+    {
+      "headline": "Headline (curta, impactante)",
+      "primaryText": "Texto Principal (3-6 linhas, storytelling + dor + solução + urgência)",
+      "description": "Descrição (curta, pra Meta)",
+      "hook": "Hook inicial (pra vídeo ou post)",
+      "prompt": "Prompt imagem detalhado (pra Midjourney/Leonardo, foto real BR, EM INGLÊS)"
+    }
+  ],
+  "finalCTA": "CTA final forte"
+}
 
 Retorne APENAS um JSON válido seguindo o schema solicitado.
 `;
 
+  const modelName = modelType === 'pro' ? 'gemini-3.1-pro-preview' : 'gemini-3-flash-preview';
+
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: modelName,
     contents: prompt,
     config: {
       responseMimeType: 'application/json',
       responseSchema: {
         type: Type.OBJECT,
         properties: {
-          prompts: {
+          prediction: { type: Type.STRING },
+          variations: {
             type: Type.ARRAY,
-            items: { type: Type.STRING },
-            description: 'Prompts in English for image generation AI'
+            items: {
+              type: Type.OBJECT,
+              properties: {
+                headline: { type: Type.STRING },
+                primaryText: { type: Type.STRING },
+                description: { type: Type.STRING },
+                hook: { type: Type.STRING },
+                prompt: { type: Type.STRING }
+              },
+              required: ['headline', 'primaryText', 'description', 'hook', 'prompt']
+            }
           },
-          copy: {
-            type: Type.OBJECT,
-            properties: {
-              primaryText: { type: Type.STRING },
-              headline: { type: Type.STRING },
-              description: { type: Type.STRING }
-            },
-            required: ['primaryText', 'headline', 'description']
-          },
-          hooks: {
-            type: Type.ARRAY,
-            items: { type: Type.STRING }
-          },
-          prediction: { type: Type.STRING }
+          finalCTA: { type: Type.STRING }
         },
-        required: ['prompts', 'copy', 'hooks', 'prediction']
+        required: ['prediction', 'variations', 'finalCTA']
       }
     }
   });

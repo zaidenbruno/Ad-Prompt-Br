@@ -4,21 +4,25 @@ import { useState } from 'react';
 import { useAuth } from './AuthProvider';
 import { supabase } from '../lib/supabase';
 import { generateAdCreatives } from '../lib/gemini';
-import { Copy, Check, Loader2, Sparkles, Target, MapPin, Tag, Users, Hash } from 'lucide-react';
+import { Copy, Check, Loader2, Sparkles, Target, MapPin, Tag, Users, Hash, Download, FileText, Image as ImageIcon } from 'lucide-react';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 export function Dashboard() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
   const [results, setResults] = useState<any | null>(null);
+  const [modelType, setModelType] = useState<'flash' | 'pro'>('flash');
+  const [isExporting, setIsExporting] = useState(false);
 
   const [inputs, setInputs] = useState({
     niche: '',
     location: '',
-    objective: 'vendas online',
+    objective: 'mensagens WhatsApp',
     promo: '',
     audience: '',
-    variations: 5,
+    variations: 3,
   });
 
   const handleCopy = (text: string, id: string) => {
@@ -35,7 +39,7 @@ export function Dashboard() {
     setResults(null);
 
     try {
-      const generatedData = await generateAdCreatives(inputs);
+      const generatedData = await generateAdCreatives(inputs, modelType);
       
       // Save to Supabase
       const { error } = await supabase.from('generations').insert([
@@ -59,51 +63,133 @@ export function Dashboard() {
     }
   };
 
+  const exportToPDF = async () => {
+    const element = document.getElementById('creative-results');
+    if (!element) return;
+    
+    setIsExporting(true);
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        backgroundColor: '#121212',
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`criativo-${inputs.niche.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      alert('Erro ao exportar PDF.');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const exportToImage = async () => {
+    const element = document.getElementById('creative-results');
+    if (!element) return;
+    
+    setIsExporting(true);
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        backgroundColor: '#121212',
+      });
+      
+      const link = document.createElement('a');
+      link.download = `criativo-${inputs.niche.replace(/\s+/g, '-').toLowerCase()}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('Error exporting Image:', error);
+      alert('Erro ao exportar Imagem.');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
       {/* Form Section */}
       <div className="lg:col-span-4 space-y-6">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-zinc-200 sticky top-24">
-          <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-            <Sparkles className="text-indigo-600" size={24} />
+        <div className="bg-[#1A1A1A] p-6 rounded-2xl shadow-sm border border-zinc-800 sticky top-24">
+          <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-zinc-100">
+            <Sparkles className="text-rose-500" size={24} />
             Novo Criativo
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="mb-6">
+  <label className="block text-sm font-medium text-zinc-300 mb-2">Modelo de IA</label>
+  <div className="inline-flex items-center bg-[#242424] rounded-lg border border-zinc-700 overflow-hidden shadow-sm">
+    <button
+      type="button"
+      onClick={() => setModelType('flash')}
+      className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
+        modelType === 'flash'
+          ? 'bg-rose-600 text-white shadow-inner'
+          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+      }`}
+    >
+      <span className="text-base">⚡</span> Rápido (Flash)
+    </button>
+
+    <div className="w-px h-5 bg-zinc-700" /> {/* linha divisória fina */}
+
+    <button
+      type="button"
+      onClick={() => setModelType('pro')}
+      className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
+        modelType === 'pro'
+          ? 'bg-rose-600 text-white shadow-inner'
+          : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+      }`}
+    >
+      <span className="text-base">🧠</span> Qualidade Alta (Pro)
+    </button>
+  </div>
+</div>
+
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1 flex items-center gap-2">
-                <Tag size={16} className="text-zinc-400" /> Nicho da Loja
+              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
+                <Tag size={16} className="text-zinc-500" /> Nicho da Loja
               </label>
               <input
                 required
                 type="text"
-                placeholder="ex: Fast fashion R$19,90"
-                className="w-full px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                placeholder="ex: Loja de Roupas"
+                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all placeholder:text-zinc-600"
                 value={inputs.niche}
                 onChange={(e) => setInputs({ ...inputs, niche: e.target.value })}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1 flex items-center gap-2">
-                <MapPin size={16} className="text-zinc-400" /> Cidade/Região
+              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
+                <MapPin size={16} className="text-zinc-500" /> Cidade/Região
               </label>
               <input
                 required
                 type="text"
                 placeholder="ex: Florianópolis SC"
-                className="w-full px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all placeholder:text-zinc-600"
                 value={inputs.location}
                 onChange={(e) => setInputs({ ...inputs, location: e.target.value })}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1 flex items-center gap-2">
-                <Target size={16} className="text-zinc-400" /> Objetivo Principal
+              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
+                <Target size={16} className="text-zinc-500" /> Objetivo Principal
               </label>
               <select
-                className="w-full px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all"
                 value={inputs.objective}
                 onChange={(e) => setInputs({ ...inputs, objective: e.target.value })}
               >
@@ -111,47 +197,48 @@ export function Dashboard() {
                 <option value="mensagens WhatsApp">Mensagens WhatsApp</option>
                 <option value="vendas online">Vendas online</option>
                 <option value="tráfego para site">Tráfego para site</option>
+                <option value="visitas pro perfil do Instagram">Visitas pro perfil do Instagram</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1 flex items-center gap-2">
-                <Sparkles size={16} className="text-zinc-400" /> Promo/Destaque
+              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
+                <Sparkles size={16} className="text-zinc-500" /> Promo/Destaque
               </label>
               <input
                 required
                 type="text"
                 placeholder="ex: Promo Black Friday"
-                className="w-full px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all placeholder:text-zinc-600"
                 value={inputs.promo}
                 onChange={(e) => setInputs({ ...inputs, promo: e.target.value })}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1 flex items-center gap-2">
-                <Users size={16} className="text-zinc-400" /> Público Alvo
+              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
+                <Users size={16} className="text-zinc-500" /> Público Alvo
               </label>
               <input
                 required
                 type="text"
                 placeholder="ex: Mulheres 25-45 anos"
-                className="w-full px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all placeholder:text-zinc-600"
                 value={inputs.audience}
                 onChange={(e) => setInputs({ ...inputs, audience: e.target.value })}
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-zinc-700 mb-1 flex items-center gap-2">
-                <Hash size={16} className="text-zinc-400" /> Variações de Imagem
+              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
+                <Hash size={16} className="text-zinc-500" /> Variações de Imagem
               </label>
               <input
                 required
                 type="number"
                 min="1"
                 max="10"
-                className="w-full px-4 py-2 bg-zinc-50 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all"
                 value={inputs.variations}
                 onChange={(e) => setInputs({ ...inputs, variations: parseInt(e.target.value) })}
               />
@@ -160,7 +247,7 @@ export function Dashboard() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-xl transition-all disabled:opacity-70 flex items-center justify-center gap-2 mt-6"
+              className="w-full bg-rose-600 hover:bg-rose-700 text-white font-medium py-3 px-4 rounded-xl transition-all disabled:opacity-70 flex items-center justify-center gap-2 mt-6"
             >
               {loading ? (
                 <>
@@ -178,95 +265,111 @@ export function Dashboard() {
       {/* Results Section */}
       <div className="lg:col-span-8 space-y-6">
         {!results && !loading && (
-          <div className="bg-white border border-zinc-200 border-dashed rounded-2xl p-12 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
-            <div className="w-16 h-16 bg-zinc-100 rounded-full flex items-center justify-center mb-4">
-              <Sparkles className="text-zinc-400" size={32} />
+          <div className="bg-[#1A1A1A] border border-zinc-800 border-dashed rounded-2xl p-12 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+            <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mb-4">
+              <Sparkles className="text-zinc-500" size={32} />
             </div>
-            <h3 className="text-xl font-medium text-zinc-900 mb-2">Pronto para a mágica?</h3>
-            <p className="text-zinc-500 max-w-md">
+            <h3 className="text-xl font-medium text-zinc-100 mb-2">Pronto para a mágica?</h3>
+            <p className="text-zinc-400 max-w-md">
               Preencha o formulário ao lado e deixe a IA criar os melhores copys e prompts para suas campanhas no Meta Ads.
             </p>
           </div>
         )}
 
         {loading && (
-          <div className="bg-white border border-zinc-200 rounded-2xl p-12 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
-            <Loader2 className="animate-spin text-indigo-600 mb-4" size={48} />
-            <h3 className="text-xl font-medium text-zinc-900 mb-2">Analisando o mercado brasileiro...</h3>
-            <p className="text-zinc-500">Criando copys virais e prompts otimizados.</p>
+          <div className="bg-[#1A1A1A] border border-zinc-800 rounded-2xl p-12 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
+            <Loader2 className="animate-spin text-rose-500 mb-4" size={48} />
+            <h3 className="text-xl font-medium text-zinc-100 mb-2">Analisando o mercado brasileiro...</h3>
+            <p className="text-zinc-400">Criando copys virais e prompts otimizados.</p>
           </div>
         )}
 
         {results && !loading && (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            {/* Prediction Card */}
-            <div className="bg-emerald-50 border border-emerald-200 p-6 rounded-2xl">
-              <h3 className="text-emerald-800 font-bold mb-2 flex items-center gap-2">
-                <Target size={20} />
-                Previsão de Performance
-              </h3>
-              <p className="text-emerald-700">{results.prediction}</p>
+            <div className="flex justify-end gap-3 mb-4">
+              <button
+                onClick={exportToImage}
+                disabled={isExporting}
+                className="flex items-center gap-2 px-4 py-2 bg-[#242424] hover:bg-zinc-800 border border-zinc-700 text-zinc-300 rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
+              >
+                {isExporting ? <Loader2 size={16} className="animate-spin" /> : <ImageIcon size={16} />}
+                Exportar Imagem
+              </button>
+              <button
+                onClick={exportToPDF}
+                disabled={isExporting}
+                className="flex items-center gap-2 px-4 py-2 bg-[#242424] hover:bg-zinc-800 border border-zinc-700 text-zinc-300 rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
+              >
+                {isExporting ? <Loader2 size={16} className="animate-spin" /> : <FileText size={16} />}
+                Exportar PDF
+              </button>
             </div>
 
-            {/* Copy Card */}
-            <div className="bg-white border border-zinc-200 p-6 rounded-2xl shadow-sm">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold text-zinc-900">Copy do Anúncio</h3>
-                <button
-                  onClick={() => handleCopy(`${results.copy.primaryText}\n\n${results.copy.headline}\n${results.copy.description}`, 'copy')}
-                  className="text-zinc-400 hover:text-indigo-600 transition-colors"
-                >
-                  {copied === 'copy' ? <Check size={20} className="text-emerald-500" /> : <Copy size={20} />}
-                </button>
+            <div id="creative-results" className="space-y-6 p-4 -m-4 bg-[#121212] rounded-2xl">
+              {/* Prediction Card */}
+              <div className="bg-emerald-950/30 border border-emerald-900/50 p-6 rounded-2xl">
+                <h3 className="text-emerald-400 font-bold mb-2 flex items-center gap-2">
+                  <Target size={20} />
+                  Previsão de Performance
+                </h3>
+                <p className="text-emerald-300/90">{results.prediction}</p>
               </div>
-              <div className="space-y-4">
-                <div>
-                  <span className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1 block">Texto Principal</span>
-                  <p className="text-zinc-800 whitespace-pre-wrap">{results.copy.primaryText}</p>
-                </div>
-                <div className="bg-zinc-50 p-4 rounded-xl border border-zinc-100">
-                  <span className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-1 block">Título (Headline)</span>
-                  <p className="font-bold text-zinc-900 text-lg">{results.copy.headline}</p>
-                  <span className="text-xs font-bold uppercase tracking-wider text-zinc-400 mt-3 mb-1 block">Descrição</span>
-                  <p className="text-zinc-600 text-sm">{results.copy.description}</p>
-                </div>
-              </div>
-            </div>
 
-            {/* Hooks Card */}
-            <div className="bg-white border border-zinc-200 p-6 rounded-2xl shadow-sm">
-              <h3 className="text-lg font-bold text-zinc-900 mb-4">Ganchos (Hooks) para Vídeo/Imagem</h3>
-              <ul className="space-y-3">
-                {results.hooks.map((hook: string, idx: number) => (
-                  <li key={idx} className="flex gap-3 items-start bg-indigo-50/50 p-4 rounded-xl border border-indigo-100/50">
-                    <span className="bg-indigo-100 text-indigo-700 font-bold w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-sm">
-                      {idx + 1}
-                    </span>
-                    <p className="text-zinc-800">{hook}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              {/* Variations */}
+              <div className="space-y-6">
+                {results.variations?.map((variation: any, idx: number) => (
+                  <div key={idx} className="bg-[#1A1A1A] border border-zinc-800 p-6 rounded-2xl shadow-sm">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
+                        <span className="bg-rose-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">{idx + 1}</span>
+                        Variação {idx + 1}
+                      </h3>
+                      <button
+                        onClick={() => handleCopy(`${variation.primaryText}\n\n${variation.headline}\n${variation.description}\n\nHook: ${variation.hook}\n\nPrompt: ${variation.prompt}`, `var-${idx}`)}
+                        className="text-zinc-500 hover:text-rose-500 transition-colors flex items-center gap-2 text-sm font-medium"
+                      >
+                        {copied === `var-${idx}` ? <><Check size={16} className="text-emerald-500" /> Copiado</> : <><Copy size={16} /> Copiar Variação</>}
+                      </button>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div className="group relative">
+                        <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 block mb-1">Texto Principal</span>
+                        <p className="text-zinc-300 whitespace-pre-wrap">{variation.primaryText}</p>
+                      </div>
+                      
+                      <div className="bg-[#242424] p-4 rounded-xl border border-zinc-800">
+                        <div className="group relative">
+                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 block mb-1">Título (Headline)</span>
+                          <p className="font-bold text-zinc-100 text-lg">{variation.headline}</p>
+                        </div>
+                        <div className="group relative mt-4">
+                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 block mb-1">Descrição</span>
+                          <p className="text-zinc-400 text-sm">{variation.description}</p>
+                        </div>
+                      </div>
 
-            {/* Prompts Card */}
-            <div className="bg-zinc-900 border border-zinc-800 p-6 rounded-2xl shadow-sm text-zinc-300">
-              <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <Sparkles size={20} className="text-indigo-400" />
-                Prompts para IA (Midjourney/Leonardo)
-              </h3>
-              <div className="space-y-4">
-                {results.prompts.map((prompt: string, idx: number) => (
-                  <div key={idx} className="bg-zinc-800/50 border border-zinc-700/50 p-4 rounded-xl group relative">
-                    <button
-                      onClick={() => handleCopy(prompt, `prompt-${idx}`)}
-                      className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors opacity-0 group-hover:opacity-100"
-                    >
-                      {copied === `prompt-${idx}` ? <Check size={18} className="text-emerald-400" /> : <Copy size={18} />}
-                    </button>
-                    <p className="font-mono text-sm leading-relaxed pr-8">{prompt}</p>
+                      <div className="bg-rose-950/20 p-4 rounded-xl border border-rose-900/30">
+                        <span className="text-xs font-bold uppercase tracking-wider text-rose-400 block mb-1">Gancho (Hook)</span>
+                        <p className="text-zinc-300">{variation.hook}</p>
+                      </div>
+
+                      <div className="bg-[#242424] border border-zinc-800 p-4 rounded-xl">
+                        <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 block mb-1">Prompt de Imagem</span>
+                        <p className="font-mono text-sm leading-relaxed text-zinc-400">{variation.prompt}</p>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
+
+              {/* Final CTA */}
+              {results.finalCTA && (
+                <div className="bg-rose-950/30 border border-rose-900/50 p-6 rounded-2xl text-center">
+                  <h3 className="text-rose-400 font-bold mb-2">CTA Final Recomendado</h3>
+                  <p className="text-zinc-200 font-medium text-lg">{results.finalCTA}</p>
+                </div>
+              )}
             </div>
           </div>
         )}
