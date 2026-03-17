@@ -317,10 +317,52 @@ export function Dashboard() {
         )}
 
         {loading && (
-          <div className="bg-[#1A1A1A] border border-zinc-800 rounded-2xl p-12 text-center flex flex-col items-center justify-center h-full min-h-[400px]">
-            <Loader2 className="animate-spin text-rose-500 mb-4" size={48} />
-            <h3 className="text-xl font-medium text-zinc-100 mb-2">Analisando o mercado brasileiro...</h3>
-            <p className="text-zinc-400">Criando copys virais e prompts otimizados.</p>
+          <div className="bg-[#1A1A1A] border border-zinc-800 rounded-2xl p-8 md:p-12 text-center flex flex-col items-center justify-center h-full min-h-[400px] relative overflow-hidden">
+            {/* Background Glow */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-rose-500 to-transparent animate-pulse"></div>
+            
+            <div className="relative z-10 flex flex-col items-center">
+              <Loader2 className="animate-spin text-rose-500 mb-6" size={48} />
+              <h3 className="text-2xl font-bold text-zinc-100 mb-2">Analisando o mercado brasileiro...</h3>
+              <p className="text-zinc-400 mb-12">Criando copys virais e prompts otimizados para você.</p>
+
+              {!user && (
+                <div className="w-full max-w-md bg-gradient-to-br from-[#1E121E] to-[#121212] border border-purple-500/20 rounded-3xl p-8 shadow-2xl animate-in zoom-in-95 duration-500">
+                  <div className="flex items-center justify-center gap-2 mb-4">
+                    <span className="text-yellow-400 text-xl">⚡</span>
+                    <h4 className="text-xl font-bold text-white tracking-tight">Entre para Ganhar Mais</h4>
+                    <span className="text-yellow-400 text-xl">⚡</span>
+                  </div>
+                  
+                  <p className="text-zinc-400 text-sm mb-8 leading-relaxed">
+                    Crie sua conta gratuita para ganhar créditos diários e acessar recursos exclusivos de alta conversão.
+                  </p>
+
+                  <button
+                    onClick={async () => {
+                      try {
+                        const { error } = await supabase.auth.signInWithOAuth({
+                          provider: 'google',
+                          options: {
+                            redirectTo: window.location.origin,
+                            queryParams: {
+                              prompt: 'select_account',
+                            },
+                          },
+                        });
+                        if (error) throw error;
+                      } catch (error: any) {
+                        alert(error.message || 'Erro no login com Google');
+                      }
+                    }}
+                    className="w-full bg-gradient-to-r from-purple-600 to-rose-600 hover:from-purple-500 hover:to-rose-500 text-white font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-rose-600/20"
+                  >
+                    <Sparkles size={20} className="text-yellow-300" />
+                    Entrar Agora
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         )}
 

@@ -110,7 +110,7 @@ export function Navbar() {
                     const { error } = await supabase.auth.signInWithOAuth({
                       provider: 'google',
                       options: {
-                        redirectTo: 'https://ad-prompt-br.vercel.app',
+                        redirectTo: window.location.origin,
                         queryParams: {
                           prompt: 'select_account',
                         },
