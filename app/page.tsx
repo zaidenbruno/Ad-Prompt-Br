@@ -83,6 +83,22 @@ export default function LandingPage() {
             </Link>
           </div>
           <p className="text-sm text-zinc-500 mt-4">Não precisa de cartão de crédito para testar.</p>
+          
+          {/* Hero Composition */}
+          <div className="mt-20 relative max-w-5xl mx-auto flex justify-center items-center">
+            {/* Glow effect behind */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-rose-600/20 blur-[120px] rounded-full pointer-events-none"></div>
+            
+            {/* MacBook (Center/Back) */}
+            <div className="relative z-10 w-full max-w-4xl animate-[float_6s_ease-in-out_infinite]">
+              <img src="/macbook.png" alt="Ad Prompt BR no MacBook" className="w-full h-auto drop-shadow-2xl" />
+            </div>
+
+            {/* iPad (Right/Front/Tilted) */}
+            <div className="absolute -right-4 md:-right-12 bottom-4 md:bottom-12 z-20 w-[40%] max-w-[300px] animate-[float_6s_ease-in-out_3s_infinite]">
+              <img src="/ipad.png" alt="Ad Prompt BR no iPad" className="w-full h-auto drop-shadow-2xl" />
+            </div>
+          </div>
         </div>
       </section>
 
