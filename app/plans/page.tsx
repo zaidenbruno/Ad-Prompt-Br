@@ -68,7 +68,7 @@ export default function PlansPage() {
             <ul className="space-y-4 mb-8 flex-1">
               <li className="flex items-center gap-3 text-zinc-300">
                 <CheckCircle2 className="w-5 h-5 text-zinc-600 shrink-0" />
-                <span>5 gerações por mês</span>
+                <span>15 gerações por mês</span>
               </li>
               <li className="flex items-center gap-3 text-zinc-300">
                 <CheckCircle2 className="w-5 h-5 text-zinc-600 shrink-0" />
