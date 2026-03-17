@@ -89,7 +89,7 @@ export default function LandingPage() {
               onClick={handleCtaClick}
               className="w-full sm:w-auto px-8 py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl font-bold text-lg transition-all transform hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(225,29,72,0.5)] flex items-center justify-center gap-2"
             >
-              Quero viralizar agora
+              Testar a IA grátis agora
               <ArrowRight className="w-5 h-5" />
             </button>
             <Link

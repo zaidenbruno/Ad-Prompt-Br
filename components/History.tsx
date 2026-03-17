@@ -36,12 +36,29 @@ export function History() {
 
   const handleCopy = (item: any) => {
     let text = '';
-    if (item.outputs.variations) {
-      const v = item.outputs.variations[0];
-      text = `${v.primaryText}\n\n${v.headline}\n${v.description}`;
+    
+    // Check if it's the new format (array of variations) or old format (single copy object)
+    if (item.outputs.variations && Array.isArray(item.outputs.variations)) {
+      // Format all variations nicely
+      text = item.outputs.variations.map((v: any, index: number) => {
+        return `--- VARIAÇÃO ${index + 1} ---\n\n` +
+               `🔥 HEADLINE:\n${v.headline}\n\n` +
+               `📝 TEXTO PRINCIPAL:\n${v.primaryText}\n\n` +
+               `💡 DESCRIÇÃO:\n${v.description || ''}\n\n` +
+               `🎣 GANCHO (HOOK):\n${v.hook || ''}\n\n` +
+               `🎨 PROMPT DE IMAGEM:\n${v.prompt || ''}\n`;
+      }).join('\n\n');
+      
+      if (item.outputs.prediction) {
+        text = `📊 PREVISÃO DE PERFORMANCE:\n${item.outputs.prediction}\n\n${text}`;
+      }
     } else if (item.outputs.copy) {
-      text = `${item.outputs.copy.primaryText}\n\n${item.outputs.copy.headline}\n${item.outputs.copy.description}`;
+      // Fallback for old format
+      text = `🔥 HEADLINE:\n${item.outputs.copy.headline}\n\n` +
+             `📝 TEXTO PRINCIPAL:\n${item.outputs.copy.primaryText}\n\n` +
+             `💡 DESCRIÇÃO:\n${item.outputs.copy.description || ''}`;
     }
+
     navigator.clipboard.writeText(text);
     setCopied(item.id);
     setTimeout(() => setCopied(null), 2000);

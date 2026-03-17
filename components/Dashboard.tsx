@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from './AuthProvider';
 import { supabase } from '../lib/supabase';
 import { generateAdCreatives } from '../lib/gemini';
@@ -25,6 +25,30 @@ export function Dashboard() {
     audience: '',
     variations: 3,
   });
+
+  // Load from sessionStorage on mount
+  useEffect(() => {
+    const savedInputs = sessionStorage.getItem('adPromptInputs');
+    const savedResults = sessionStorage.getItem('adPromptResults');
+    
+    if (savedInputs) {
+      try { setInputs(JSON.parse(savedInputs)); } catch (e) {}
+    }
+    if (savedResults) {
+      try { setResults(JSON.parse(savedResults)); } catch (e) {}
+    }
+  }, []);
+
+  // Save to sessionStorage when inputs or results change
+  useEffect(() => {
+    sessionStorage.setItem('adPromptInputs', JSON.stringify(inputs));
+  }, [inputs]);
+
+  useEffect(() => {
+    if (results) {
+      sessionStorage.setItem('adPromptResults', JSON.stringify(results));
+    }
+  }, [results]);
 
   const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -339,28 +363,53 @@ export function Dashboard() {
                     
                     <div className="space-y-4">
                       <div className="group relative">
-                        <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 block mb-1">Texto Principal</span>
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Texto Principal</span>
+                          <button onClick={() => handleCopy(variation.primaryText, `text-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
+                            {copied === `text-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                          </button>
+                        </div>
                         <p className="text-zinc-300 whitespace-pre-wrap">{variation.primaryText}</p>
                       </div>
                       
                       <div className="bg-[#242424] p-4 rounded-xl border border-zinc-800">
                         <div className="group relative">
-                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 block mb-1">Título (Headline)</span>
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Título (Headline)</span>
+                            <button onClick={() => handleCopy(variation.headline, `head-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
+                              {copied === `head-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                            </button>
+                          </div>
                           <p className="font-bold text-zinc-100 text-lg">{variation.headline}</p>
                         </div>
                         <div className="group relative mt-4">
-                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 block mb-1">Descrição</span>
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Descrição</span>
+                            <button onClick={() => handleCopy(variation.description, `desc-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
+                              {copied === `desc-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                            </button>
+                          </div>
                           <p className="text-zinc-400 text-sm">{variation.description}</p>
                         </div>
                       </div>
 
-                      <div className="bg-rose-950/20 p-4 rounded-xl border border-rose-900/30">
-                        <span className="text-xs font-bold uppercase tracking-wider text-rose-400 block mb-1">Gancho (Hook)</span>
+                      <div className="bg-rose-950/20 p-4 rounded-xl border border-rose-900/30 group relative">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-xs font-bold uppercase tracking-wider text-rose-400">Gancho (Hook)</span>
+                          <button onClick={() => handleCopy(variation.hook, `hook-${idx}`)} className="text-rose-400 hover:text-rose-300 transition-colors">
+                            {copied === `hook-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                          </button>
+                        </div>
                         <p className="text-zinc-300">{variation.hook}</p>
                       </div>
 
-                      <div className="bg-[#242424] border border-zinc-800 p-4 rounded-xl">
-                        <span className="text-xs font-bold uppercase tracking-wider text-zinc-500 block mb-1">Prompt de Imagem</span>
+                      <div className="bg-[#242424] border border-zinc-800 p-4 rounded-xl group relative">
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Prompt de Imagem</span>
+                          <button onClick={() => handleCopy(variation.prompt, `prompt-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
+                            {copied === `prompt-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+                          </button>
+                        </div>
                         <p className="font-mono text-sm leading-relaxed text-zinc-400">{variation.prompt}</p>
                       </div>
                     </div>
