@@ -121,7 +121,7 @@ export function Navbar() {
                     alert(error.message || 'Erro no login com Google');
                   }
                 }}
-                className="bg-[#EA4335] hover:bg-[#D23E31] text-white font-medium py-2 px-6 rounded-full flex items-center gap-2 text-sm transition-colors"
+                className="bg-rose-600 hover:bg-rose-700 text-white font-medium py-2 px-6 rounded-full flex items-center gap-2 text-sm transition-colors shadow-lg shadow-rose-600/20"
               >
                 <img src="https://www.google.com/favicon.ico" className="w-4 h-4 bg-white rounded-full p-0.5" alt="Google" />
                 Entrar com Google
