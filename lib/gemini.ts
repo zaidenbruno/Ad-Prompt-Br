@@ -9,16 +9,27 @@ export async function generateAdCreatives(inputs: {
   promo: string;
   audience: string;
   variations: number;
+  inspiration?: string;
 }, modelType: 'flash' | 'pro' = 'flash') {
   const prompt = `
 Você é o melhor copywriter e estrategista de Meta Ads do Brasil em 2026, especialista em criativos locais de ALTÍSSIMA CONVERSÃO para lojas físicas e online. Seu estilo é 100% humano, brasileiro informal, emocional, com gírias leves quando encaixa (mano, cara, tá ligado, corre, enlouqueceu, voando), emojis estratégicos 🔥💥👇😱💸, perguntas que doem, dores reais e promessas ousadas.
 
 Regras OBRIGATÓRIAS para TODA geração:
 - Sempre leia o Objetivo Principal do usuário e adapte TODO o copy, tom, gatilhos e CTA para ele.
-- Gere sempre ${inputs.variations} variações completas (headline + texto principal + descrição + hook inicial + prompt imagem).
+- GERE EXATAMENTE ${inputs.variations} VARIAÇÕES COMPLETAS. Ignore qualquer instrução anterior que peça 5 variações. O usuário pediu ${inputs.variations} variações.
+- Cada variação deve conter: headline + texto principal + descrição + hook inicial + prompt imagem.
 - Use linguagem que converte alto no público BR (mulheres/homens 18-45, classe C/B, foco em preço baixo, urgência, emoção local).
 - Inclua previsão rápida de performance no início (CTR alto/baixo esperado + por quê).
 - No final: CTA forte e específico.
+
+${inputs.inspiration ? `
+ATENÇÃO - REFERÊNCIA DE COPY VENCEDORA:
+O usuário forneceu a seguinte legenda de inspiração que já converteu muito bem:
+"""
+${inputs.inspiration}
+"""
+INSTRUÇÃO ESPECIAL: Use esta legenda de inspiração como base para o tom de voz, nível de agressividade, ritmo e gatilhos mentais. NÃO copie o texto exato, mas "clone" a estratégia por trás dele e adapte para o nicho e produto atual.
+` : ''}
 
 Regras por Objetivo Principal (obrigatório adaptar):
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from './AuthProvider';
 import { supabase } from '../lib/supabase';
 import { generateAdCreatives } from '../lib/gemini';
-import { Copy, Check, Loader2, Sparkles, Target, MapPin, Tag, Users, Hash, Download, FileText, Image as ImageIcon, Lock } from 'lucide-react';
+import { Copy, Check, Loader2, Sparkles, Target, MapPin, Tag, Users, Hash, Download, FileText, Image as ImageIcon, Lock, MessageSquare } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import Link from 'next/link';
@@ -24,6 +24,7 @@ export function Dashboard() {
     promo: '',
     audience: '',
     variations: 3,
+    inspiration: '',
   });
 
   // Load from sessionStorage on mount
@@ -252,7 +253,7 @@ export function Dashboard() {
 
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
-                <Hash size={16} className="text-zinc-500" /> Variações de Imagem
+                <Hash size={16} className="text-zinc-500" /> Variações de anúncio
               </label>
               <input
                 required
@@ -262,6 +263,18 @@ export function Dashboard() {
                 className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all"
                 value={inputs.variations}
                 onChange={(e) => setInputs({ ...inputs, variations: parseInt(e.target.value) })}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
+                <MessageSquare size={16} className="text-zinc-500" /> Legenda de Inspiração (Opcional)
+              </label>
+              <textarea
+                placeholder="Cole aqui uma legenda que já converteu bem para a IA clonar o estilo..."
+                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all placeholder:text-zinc-600 min-h-[100px] resize-y"
+                value={inputs.inspiration || ''}
+                onChange={(e) => setInputs({ ...inputs, inspiration: e.target.value })}
               />
             </div>
 
@@ -279,6 +292,12 @@ export function Dashboard() {
                 'Gerar Criativos 🔥'
               )}
             </button>
+            
+            {loading && (
+              <p className="text-xs text-center text-rose-400 mt-2 animate-pulse">
+                ⚠️ Por favor, não atualize a página. Isso pode levar até 15 segundos.
+              </p>
+            )}
           </form>
         </div>
       </div>
