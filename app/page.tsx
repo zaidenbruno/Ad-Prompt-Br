@@ -51,53 +51,61 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-[#121212] text-zinc-100 font-sans selection:bg-rose-500/30">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <section className="relative pt-20 pb-40 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-rose-900/20 via-[#121212] to-[#121212] -z-10"></div>
-        <div className="max-w-5xl mx-auto text-center space-y-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-4">
-            <SparklesIcon className="w-4 h-4" />
-            <span>A revolução dos anúncios chegou</span>
-          </div>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.1]">
-            Crie anúncios virais para <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">
-              Meta Ads em segundos
-            </span> com IA
-          </h1>
-          <p className="text-lg md:text-xl font-bold text-rose-100 max-w-3xl mx-auto leading-relaxed bg-rose-900/20 border border-rose-500/20 p-4 rounded-2xl">
-            Diferente do ChatGPT genérico, o AdPrompt BR já vem treinado com estrutura que converte no Brasil: gírias reais, urgência local, CTA matador e prompts prontos pra imagem.
-          </p>
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button
-              onClick={handleCtaClick}
-              className="w-full sm:w-auto px-8 py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl font-bold text-lg transition-all transform hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(225,29,72,0.5)] flex items-center justify-center gap-2"
-            >
-              Testar a IA grátis agora
-              <ArrowRight className="w-5 h-5" />
-            </button>
-            <Link
-              href="/plans"
-              className="w-full sm:w-auto px-8 py-4 bg-[#1A1A1A] hover:bg-zinc-800 border border-zinc-800 text-zinc-300 rounded-2xl font-bold text-lg transition-all flex items-center justify-center"
-            >
-              Ver planos
-            </Link>
-          </div>
-          <p className="text-sm text-zinc-500 mt-4">Não precisa de cartão de crédito para testar.</p>
-          
-          {/* Hero Composition */}
-          <div className="mt-20 relative max-w-5xl mx-auto flex justify-center items-center">
+        
+        <div className="max-w-6xl mx-auto relative">
+          {/* Background Images Layer */}
+          <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full max-w-5xl pointer-events-none select-none">
             {/* Glow effect behind */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-rose-600/20 blur-[120px] rounded-full pointer-events-none"></div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-rose-600/10 blur-[120px] rounded-full"></div>
             
             {/* MacBook (Center/Back) */}
-            <div className="relative z-10 w-full max-w-4xl animate-[float_6s_ease-in-out_infinite]">
-              <img src="/macbook.png" alt="Ad Prompt BR no MacBook" className="w-full h-auto drop-shadow-2xl" />
+            <div className="relative z-0 w-full opacity-40 md:opacity-60 animate-[float_8s_ease-in-out_infinite]">
+              <img src="/macbook.png" alt="" className="w-full h-auto drop-shadow-2xl" />
             </div>
 
-            {/* iPad (Right/Front/Tilted) */}
-            <div className="absolute -right-4 md:-right-12 bottom-4 md:bottom-12 z-20 w-[40%] max-w-[300px] animate-[float_6s_ease-in-out_3s_infinite]">
-              <img src="/ipad.png" alt="Ad Prompt BR no iPad" className="w-full h-auto drop-shadow-2xl" />
+            {/* iPad (Right/Front) */}
+            <div className="absolute -right-8 md:-right-16 -bottom-10 z-10 w-[35%] max-w-[280px] opacity-50 md:opacity-80 animate-[float_8s_ease-in-out_4s_infinite]">
+              <img src="/ipad.png" alt="" className="w-full h-auto drop-shadow-2xl" />
             </div>
+          </div>
+
+          {/* Content Layer (Front) */}
+          <div className="relative z-20 text-center space-y-8 pt-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-4 backdrop-blur-sm">
+              <SparklesIcon className="w-4 h-4" />
+              <span>A revolução dos anúncios chegou</span>
+            </div>
+            
+            <h1 className="text-5xl md:text-8xl font-extrabold tracking-tight text-white leading-[1.1] drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
+              Crie anúncios virais para <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">
+                Meta Ads em segundos
+              </span> com IA
+            </h1>
+            
+            <p className="text-lg md:text-xl font-bold text-rose-100 max-w-3xl mx-auto leading-relaxed bg-rose-900/40 backdrop-blur-md border border-rose-500/20 p-6 rounded-3xl shadow-2xl">
+              Diferente do ChatGPT genérico, o AdPrompt BR já vem treinado com estrutura que converte no Brasil: gírias reais, urgência local, CTA matador e prompts prontos pra imagem.
+            </p>
+            
+            <div className="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button
+                onClick={handleCtaClick}
+                className="w-full sm:w-auto px-10 py-5 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl font-bold text-xl transition-all transform hover:scale-105 hover:shadow-[0_0_50px_-10px_rgba(225,29,72,0.6)] flex items-center justify-center gap-2"
+              >
+                Testar a IA grátis agora
+                <ArrowRight className="w-6 h-6" />
+              </button>
+              <Link
+                href="/plans"
+                className="w-full sm:w-auto px-10 py-5 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 text-white rounded-2xl font-bold text-xl transition-all flex items-center justify-center"
+              >
+                Ver planos
+              </Link>
+            </div>
+            
+            <p className="text-sm text-zinc-400 font-medium">Não precisa de cartão de crédito para testar.</p>
           </div>
         </div>
       </section>
