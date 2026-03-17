@@ -18,7 +18,10 @@ export default function LandingPage() {
         const { error } = await supabase.auth.signInWithOAuth({
           provider: 'google',
           options: {
-            redirectTo: `${window.location.origin}/auth/callback`
+            redirectTo: `${window.location.origin}/auth/callback`,
+            queryParams: {
+              prompt: 'select_account'
+            }
           }
         });
         if (error) throw error;
@@ -34,7 +37,10 @@ export default function LandingPage() {
         const { error } = await supabase.auth.signInWithOAuth({
           provider: 'google',
           options: {
-            redirectTo: `${window.location.origin}/auth/callback`
+            redirectTo: `${window.location.origin}/auth/callback`,
+            queryParams: {
+              prompt: 'select_account'
+            }
           }
         });
         if (error) throw error;
@@ -77,9 +83,6 @@ export default function LandingPage() {
           </h1>
           <p className="text-lg md:text-xl font-bold text-rose-100 max-w-3xl mx-auto leading-relaxed bg-rose-900/20 border border-rose-500/20 p-4 rounded-2xl">
             Diferente do ChatGPT genérico, o AdPrompt BR já vem treinado com estrutura que converte no Brasil: gírias reais, urgência local, CTA matador e prompts prontos pra imagem.
-          </p>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Domine seu nicho no Brasil. Gere copys de impacto, ganchos magnéticos e prompts visuais para atrair clientes, visitas na loja física e vender mais, gastando menos.
           </p>
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
