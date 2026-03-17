@@ -18,7 +18,7 @@ export default function LandingPage() {
         const { error } = await supabase.auth.signInWithOAuth({
           provider: 'google',
           options: {
-            redirectTo: `${window.location.origin}/auth/callback`,
+            redirectTo: 'https://ad-prompt-br.vercel.app',
             queryParams: {
               prompt: 'select_account'
             }
@@ -37,7 +37,7 @@ export default function LandingPage() {
         const { error } = await supabase.auth.signInWithOAuth({
           provider: 'google',
           options: {
-            redirectTo: `${window.location.origin}/auth/callback`,
+            redirectTo: 'https://ad-prompt-br.vercel.app',
             queryParams: {
               prompt: 'select_account'
             }
