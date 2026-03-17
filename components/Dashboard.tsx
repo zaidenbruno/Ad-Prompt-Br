@@ -365,7 +365,7 @@ export function Dashboard() {
                         Variação {idx + 1}
                       </h3>
                       <button
-                        onClick={() => handleCopy(`${variation.primaryText}\n\n${variation.headline}\n${variation.description}\n\nHook: ${variation.hook}\n\nPrompt: ${variation.prompt}`, `var-${idx}`)}
+                        onClick={() => handleCopy(`🔥 HEADLINE:\n${variation.headline}\n\n📝 TEXTO PRINCIPAL:\n${variation.primaryText}\n\n💡 DESCRIÇÃO:\n${variation.description}\n\n🎣 HOOK INICIAL:\n${variation.hook}\n\n📸 PROMPT DE IMAGEM:\n${variation.prompt}`, `var-${idx}`)}
                         className="text-zinc-500 hover:text-rose-500 transition-colors flex items-center gap-2 text-sm font-medium"
                       >
                         {copied === `var-${idx}` ? <><Check size={16} className="text-emerald-500" /> Copiado</> : <><Copy size={16} /> Copiar Variação</>}
@@ -375,7 +375,7 @@ export function Dashboard() {
                     <div className="space-y-4">
                       <div className="group relative">
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Texto Principal</span>
+                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">📝 Texto Principal</span>
                           <button onClick={() => handleCopy(variation.primaryText, `text-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
                             {copied === `text-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                           </button>
@@ -386,7 +386,7 @@ export function Dashboard() {
                       <div className="bg-[#242424] p-4 rounded-xl border border-zinc-800">
                         <div className="group relative">
                           <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Título (Headline)</span>
+                            <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">🔥 Título (Headline)</span>
                             <button onClick={() => handleCopy(variation.headline, `head-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
                               {copied === `head-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                             </button>
@@ -395,7 +395,7 @@ export function Dashboard() {
                         </div>
                         <div className="group relative mt-4">
                           <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Descrição</span>
+                            <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">💡 Descrição</span>
                             <button onClick={() => handleCopy(variation.description, `desc-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
                               {copied === `desc-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                             </button>
@@ -406,7 +406,7 @@ export function Dashboard() {
 
                       <div className="bg-rose-950/20 p-4 rounded-xl border border-rose-900/30 group relative">
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs font-bold uppercase tracking-wider text-rose-400">Gancho (Hook)</span>
+                          <span className="text-xs font-bold uppercase tracking-wider text-rose-400">🎣 Gancho (Hook)</span>
                           <button onClick={() => handleCopy(variation.hook, `hook-${idx}`)} className="text-rose-400 hover:text-rose-300 transition-colors">
                             {copied === `hook-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                           </button>
@@ -416,7 +416,7 @@ export function Dashboard() {
 
                       <div className="bg-[#242424] border border-zinc-800 p-4 rounded-xl group relative">
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Prompt de Imagem</span>
+                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">📸 Prompt de Imagem</span>
                           <button onClick={() => handleCopy(variation.prompt, `prompt-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
                             {copied === `prompt-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                           </button>
