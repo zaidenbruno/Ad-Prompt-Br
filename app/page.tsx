@@ -61,7 +61,13 @@ export default function LandingPage() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-rose-600/10 blur-[120px] rounded-full"></div>
             
             {/* MacBook (Center/Back) */}
-            <div className="relative z-0 w-full opacity-40 md:opacity-60 animate-[float_8s_ease-in-out_infinite]">
+            <div className="relative z-0 w-full opacity-40 md:opacity-60 animate-[float_8s_ease-in-out_infinite] p-4">
+              {/* Cantoneiras Decorativas (Bordinhas nas pontas) */}
+              <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-rose-500/30 rounded-tl-[32px]"></div>
+              <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-rose-500/30 rounded-tr-[32px]"></div>
+              <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-rose-500/30 rounded-bl-[32px]"></div>
+              <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-rose-500/30 rounded-br-[32px]"></div>
+              
               <img src="/macbook.png" alt="" className="w-full h-auto drop-shadow-2xl" />
             </div>
 
