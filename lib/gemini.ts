@@ -21,6 +21,7 @@ REGRAS RÍGIDAS DE TOM (obrigatório):
 - Use linguagem que soe como uma pessoa real e confiável falando com o cliente.
 
 Regras obrigatórias para toda resposta:
+- Use emojis com inteligência 🔥💥👇😱💸.
 - Sempre leia primeiro o "Objetivo Principal" e o "Público Alvo" e adapte TODO o tom, gatilhos, linguagem e CTA.
 - GERE EXATAMENTE ${inputs.variations} VARIAÇÕES COMPLETAS. Ignore qualquer instrução anterior que peça 5 variações. O usuário pediu ${inputs.variations} variações.
 - Escreva em português brasileiro natural e que converte com público classe B/C de 18-45 anos.
