@@ -91,7 +91,7 @@ export default function LandingPage() {
               </span> com IA
             </h1>
             
-            <p className="text-lg md:text-xl font-bold text-rose-100 max-w-3xl mx-auto leading-relaxed bg-rose-900/40 backdrop-blur-md border border-rose-500/20 p-6 rounded-3xl shadow-2xl">
+            <p className="text-lg md:text-xl text-zinc-300 max-w-3xl mx-auto leading-relaxed">
               Diferente do ChatGPT genérico, o AdPrompt BR já vem treinado com estrutura que converte no Brasil: gírias reais, urgência local, CTA matador e prompts prontos pra imagem.
             </p>
             
