@@ -33,7 +33,7 @@ export default function LandingPage() {
       return;
     }
     
-    const hotmartUrl = new URL('https://pay.hotmart.com/W104924135B');
+    const hotmartUrl = new URL('https://pay.hotmart.com/W104924135B?checkoutMode=10');
     if (user.email) {
       hotmartUrl.searchParams.append('email', user.email);
     }
