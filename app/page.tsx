@@ -91,7 +91,7 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-black text-white mb-2">+2M</div>
+              <div className="text-4xl font-black text-white mb-2">+100K</div>
               <div className="text-sm text-zinc-400 font-medium uppercase tracking-wider">Criativos Gerados</div>
             </div>
             <div>
@@ -152,10 +152,10 @@ export default function LandingPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-zinc-800/50">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Veja o que a IA pode criar</h2>
-          <p className="text-zinc-400 max-w-2xl mx-auto">Exemplos reais de anúncios gerados em segundos pelo Ad Prompt BR.</p>
+          <p className="text-zinc-400 max-w-2xl mx-auto">Exemplos reais de métricas que deram resultado usando o Ad Prompt Br.</p>
         </div>
         <div className="flex overflow-x-auto pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 gap-6 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          {[1, 2, 3, 4, 5].map((i) => (
+          {[1, 2, 4, 5].map((i) => (
             <div key={i} className="min-w-[280px] sm:min-w-[320px] bg-[#1A1A1A] border border-zinc-800 rounded-3xl overflow-hidden flex flex-col hover:border-rose-500/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(225,29,72,0.3)] group snap-center">
               <div className="relative aspect-[9/16] w-full overflow-hidden bg-zinc-900">
                 {/* As imagens devem ser salvas na pasta public/ como metrica-1.png, metrica-2.png, etc. */}
@@ -165,11 +165,11 @@ export default function LandingPage() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
-              <div className="p-5 text-center border-t border-zinc-800 bg-gradient-to-b from-zinc-900/50 to-zinc-900">
-                <p className="text-rose-500 font-black tracking-widest text-sm uppercase">Métricas Comprovadas 🔥</p>
-              </div>
             </div>
           ))}
+        </div>
+        <div className="text-center mt-4">
+          <p className="text-rose-500 font-black tracking-widest text-xl uppercase">Métricas Comprovadas 🔥</p>
         </div>
       </section>
 
