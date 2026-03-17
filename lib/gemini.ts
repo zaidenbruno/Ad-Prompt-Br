@@ -78,16 +78,30 @@ Retorne APENAS um JSON válido seguindo o schema solicitado.
                 description: { type: Type.STRING },
                 hook: { type: Type.STRING },
                 prompt: { type: Type.STRING }
-              },
-              required: ['headline', 'primaryText', 'description', 'hook', 'prompt']
+              }
             }
           },
           finalCTA: { type: Type.STRING }
-        },
-        required: ['prediction', 'variations', 'finalCTA']
+        }
       }
     }
   });
 
-  return JSON.parse(response.text || '{}');
+  let jsonStr = response.text || '{}';
+  
+  // Try to extract JSON from markdown blocks or raw text
+  try {
+    // Find the first { or [ and the last } or ]
+    const firstBrace = jsonStr.indexOf('{');
+    const lastBrace = jsonStr.lastIndexOf('}');
+    
+    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
+      jsonStr = jsonStr.substring(firstBrace, lastBrace + 1);
+    }
+    
+    return JSON.parse(jsonStr);
+  } catch (e) {
+    console.error('Failed to parse JSON from Gemini:', response.text);
+    throw new Error('A IA retornou um formato inválido. Tente novamente.');
+  }
 }

@@ -80,9 +80,10 @@ export function Dashboard() {
       }
 
       setResults(generatedData);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error generating creatives:', error);
-      alert('Erro ao gerar criativos. Tente novamente.');
+      const errorMessage = error?.message || 'Erro desconhecido';
+      alert(`Erro ao gerar criativos: ${errorMessage}. Tente novamente.`);
     } finally {
       setLoading(false);
     }
