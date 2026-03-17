@@ -14,7 +14,10 @@ export function History() {
 
   useEffect(() => {
     async function fetchHistory() {
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
       try {
         const { data, error } = await supabase
           .from('generations')

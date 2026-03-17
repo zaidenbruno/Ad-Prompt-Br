@@ -11,24 +11,7 @@ export default function LandingPage() {
   const router = useRouter();
 
   const handleCtaClick = async () => {
-    if (user) {
-      router.push('/dashboard');
-    } else {
-      try {
-        const { error } = await supabase.auth.signInWithOAuth({
-          provider: 'google',
-          options: {
-            redirectTo: 'https://ad-prompt-br.vercel.app',
-            queryParams: {
-              prompt: 'select_account'
-            }
-          }
-        });
-        if (error) throw error;
-      } catch (error: any) {
-        alert(error.message || 'Erro no login com Google');
-      }
-    }
+    router.push('/dashboard');
   };
 
   const handleSubscribeClick = async () => {

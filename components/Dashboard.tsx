@@ -58,25 +58,51 @@ export function Dashboard() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user) return;
+
+    // Check limits
+    if (!user) {
+      const anonCount = parseInt(localStorage.getItem('anon_generations') || '0');
+      if (anonCount >= 1) {
+        alert('Você atingiu o limite de 1 geração gratuita. Faça login para continuar!');
+        return;
+      }
+    } else if (!isPro) {
+      // Check user generations from Supabase
+      const { count, error } = await supabase
+        .from('generations')
+        .select('*', { count: 'exact', head: true })
+        .eq('user_id', user.id);
+        
+      if (count !== null && count >= 3) {
+        alert('Você atingiu o limite de 3 gerações do plano gratuito. Faça upgrade para o plano Pro para gerar ilimitado!');
+        return;
+      }
+    }
 
     setLoading(true);
     setResults(null);
 
     try {
-      const generatedData = await generateAdCreatives(inputs, modelType);
+      // Force 'flash' model for now
+      const generatedData = await generateAdCreatives(inputs, 'flash');
       
-      // Save to Supabase
-      const { error } = await supabase.from('generations').insert([
-        {
-          user_id: user.id,
-          inputs,
-          outputs: generatedData,
-        }
-      ]);
+      if (user) {
+        // Save to Supabase
+        const { error } = await supabase.from('generations').insert([
+          {
+            user_id: user.id,
+            inputs,
+            outputs: generatedData,
+          }
+        ]);
 
-      if (error) {
-        console.error('Supabase insert error:', error);
+        if (error) {
+          console.error('Supabase insert error:', error);
+        }
+      } else {
+        // Increment anon count
+        const currentCount = parseInt(localStorage.getItem('anon_generations') || '0');
+        localStorage.setItem('anon_generations', (currentCount + 1).toString());
       }
 
       setResults(generatedData);
@@ -151,41 +177,6 @@ export function Dashboard() {
           </h2>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-zinc-300 mb-2">Modelo de IA</label>
-              <div className="grid grid-cols-2 gap-1 bg-[#242424] p-1 rounded-xl border border-zinc-700 shadow-sm">
-                <button
-                  type="button"
-                  onClick={() => setModelType('flash')}
-                  className={`flex items-center justify-center gap-2 px-2 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    modelType === 'flash'
-                      ? 'bg-rose-600 text-white shadow-sm'
-                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
-                  }`}
-                >
-                  <span className="text-base shrink-0">⚡</span> 
-                  <span className="truncate">Rápido (Flash)</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => isPro ? setModelType('pro') : null}
-                  className={`relative flex items-center justify-center gap-2 px-2 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    modelType === 'pro'
-                      ? 'bg-rose-600 text-white shadow-sm'
-                      : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
-                  } ${!isPro ? 'opacity-70 cursor-not-allowed' : ''}`}
-                >
-                  <span className="text-base shrink-0">🧠</span> 
-                  <span className="truncate">Qualidade (Pro)</span>
-                  {!isPro && (
-                    <Link href="/plans" className="absolute -top-2 -right-2 bg-rose-600 text-white p-1 rounded-full shadow-lg hover:scale-110 transition-transform">
-                      <Lock size={12} />
-                    </Link>
-                  )}
-                </button>
-              </div>
-            </div>
-
             <div>
               <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
                 <Tag size={16} className="text-zinc-500" /> Nicho da Loja

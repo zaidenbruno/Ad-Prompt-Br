@@ -14,12 +14,10 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/');
-    }
+    // Allow anonymous users to access the dashboard
   }, [user, loading, router]);
 
-  if (loading || !user) {
+  if (loading) {
     return (
       <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-[#121212]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600"></div>

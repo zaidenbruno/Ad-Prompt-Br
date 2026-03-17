@@ -57,7 +57,7 @@ Estrutura da resposta JSON:
 Retorne APENAS um JSON válido seguindo o schema solicitado.
 `;
 
-  const modelName = modelType === 'pro' ? 'gemini-3.1-pro-preview' : 'gemini-3-flash-preview';
+  const modelName = 'gemini-3-flash-preview';
 
   const response = await ai.models.generateContent({
     model: modelName,
