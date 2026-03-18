@@ -57,19 +57,26 @@ export default function LandingPage() {
         
         <div className="max-w-6xl mx-auto relative">
           {/* Background Images Layer */}
-          <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full max-w-5xl pointer-events-none select-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl pointer-events-none select-none z-10">
             {/* Glow effect behind */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-rose-600/10 blur-[120px] rounded-full"></div>
             
             {/* MacBook (Center/Back) */}
-            <div className="relative z-0 w-full animate-[float_8s_ease-in-out_infinite] p-4">
+            <div className="relative w-full animate-[float_8s_ease-in-out_infinite] p-4">
+              {/* Cantoneiras Decorativas (Bordinhas nas pontas) */}
+              <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-rose-500/40 rounded-tl-[32px] z-20"></div>
+              <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-rose-500/40 rounded-tr-[32px] z-20"></div>
+              <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-rose-500/40 rounded-bl-[32px] z-20"></div>
+              <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-rose-500/40 rounded-br-[32px] z-20"></div>
+              
               <Image 
                 src="/macbook.png" 
                 alt="MacBook Preview" 
                 width={1200} 
                 height={800} 
-                className="w-full h-auto drop-shadow-2xl"
+                className="w-full h-auto drop-shadow-2xl opacity-100"
                 priority
+                unoptimized
               />
             </div>
 
@@ -80,7 +87,8 @@ export default function LandingPage() {
                 alt="iPad Preview" 
                 width={600} 
                 height={800} 
-                className="w-full h-auto drop-shadow-2xl"
+                className="w-full h-auto drop-shadow-2xl opacity-100"
+                unoptimized
               />
             </div>
           </div>
@@ -88,7 +96,7 @@ export default function LandingPage() {
           {/* Content Layer (Front) */}
           <div className="relative z-20 text-center space-y-8 pt-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-4 backdrop-blur-sm">
-              <SparklesIcon className="w-4 h-4" />
+              <LucideSparkles className="w-4 h-4" />
               <span>A revolução dos anúncios chegou</span>
             </div>
             
@@ -201,6 +209,7 @@ export default function LandingPage() {
                   alt={`Métrica Comprovada ${i}`}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  unoptimized
                 />
               </div>
             </div>
@@ -299,17 +308,5 @@ export default function LandingPage() {
         </div>
       </footer>
     </div>
-  );
-}
-
-function SparklesIcon(props: any) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-      <path d="M5 3v4" />
-      <path d="M19 17v4" />
-      <path d="M3 5h4" />
-      <path d="M17 19h4" />
-    </svg>
   );
 }
