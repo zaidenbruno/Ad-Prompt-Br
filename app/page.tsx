@@ -3,13 +3,15 @@
 import Image from 'next/image';
 import { useAuth } from '../components/AuthProvider';
 import { useRouter } from 'next/navigation';
-import { Zap, Clock, TrendingUp, Target, CheckCircle2, ArrowRight, Sparkles as LucideSparkles } from 'lucide-react';
+import { Zap, Clock, TrendingUp, Target, CheckCircle2, ArrowRight, Sparkles as LucideSparkles, Star, HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
 import { supabase } from '../lib/supabase';
+import { useState } from 'react';
 
 export default function LandingPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const handleCtaClick = async () => {
     router.push('/dashboard');
@@ -286,6 +288,108 @@ export default function LandingPage() {
                 Garantir Acesso
               </button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section - Hidden until real data is ready */}
+      {false && (
+        <section className="py-24 bg-[#121212] px-4 sm:px-6 lg:px-8 border-t border-zinc-800/50">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Quem usa, aprova ⭐️</h2>
+              <p className="text-zinc-400">Resultados reais de quem parou de perder tempo com copy ruim.</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  name: "João Silva",
+                  role: "Dono de Loja de Celulares",
+                  content: "Aumentei meu CTR em 3x no primeiro dia. A IA entende exatamente como o brasileiro compra.",
+                  avatar: "JS"
+                },
+                {
+                  name: "Maria Oliveira",
+                  role: "Moda Feminina",
+                  content: "Finalmente uma ferramenta que não parece um robô traduzido. O tom humano é o diferencial.",
+                  avatar: "MO"
+                },
+                {
+                  name: "Pedro Santos",
+                  role: "Gestor de Tráfego",
+                  content: "Os prompts de imagem são surreais. Economizei horas de design e os anúncios estão performando muito mais.",
+                  avatar: "PS"
+                }
+              ].map((t, i) => (
+                <div key={i} className="bg-[#1A1A1A] p-8 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all group">
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, i) => <Star key={i} size={16} className="fill-yellow-500 text-yellow-500" />)}
+                  </div>
+                  <p className="text-zinc-300 mb-6 italic">&quot;{t.content}&quot;</p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-rose-600 flex items-center justify-center font-bold text-white text-sm">
+                      {t.avatar}
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-sm">{t.name}</h4>
+                      <p className="text-zinc-500 text-xs">{t.role}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* FAQ Section */}
+      <section className="py-24 bg-[#151515] px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+              <HelpCircle className="text-rose-500" />
+              Dúvidas Frequentes
+            </h2>
+            <p className="text-zinc-400">Tudo o que você precisa saber para começar hoje.</p>
+          </div>
+          <div className="space-y-4">
+            {[
+              {
+                q: "Como funciona a geração dos anúncios?",
+                a: "Nossa IA foi treinada com as melhores estratégias de Meta Ads do Brasil. Você preenche os dados do seu produto e ela gera 5 variações completas com copy, gatilhos mentais e prompts de imagem."
+              },
+              {
+                q: "Os anúncios servem para qualquer nicho?",
+                a: "Sim! De eletrônicos a moda, de serviços a infoprodutos. A IA adapta o tom de voz e os gatilhos de acordo com o seu público-alvo."
+              },
+              {
+                q: "O pagamento de R$ 19,90 é mensal?",
+                a: "Não! É um pagamento ÚNICO para acesso vitalício. Você paga uma vez e usa para sempre, sem mensalidades ou taxas escondidas."
+              },
+              {
+                q: "Posso usar no celular?",
+                a: "Com certeza! O Ad Prompt BR é 100% responsivo e funciona perfeitamente no seu smartphone, para você criar anúncios de onde estiver."
+              },
+              {
+                q: "Preciso de conhecimento técnico?",
+                a: "Nenhum. A ferramenta foi feita para ser simples e direta. Se você sabe preencher um formulário, você sabe criar anúncios de alta conversão."
+              }
+            ].map((faq, i) => (
+              <div key={i} className="bg-[#1A1A1A] border border-zinc-800 rounded-2xl overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full p-6 text-left flex justify-between items-center hover:bg-zinc-800/50 transition-colors"
+                >
+                  <span className="font-bold text-white">{faq.q}</span>
+                  {openFaq === i ? <ChevronUp className="text-rose-500" /> : <ChevronDown className="text-zinc-500" />}
+                </button>
+                {openFaq === i && (
+                  <div className="p-6 pt-0 text-zinc-400 border-t border-zinc-800/50 animate-in fade-in slide-in-from-top-2 duration-300">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </section>

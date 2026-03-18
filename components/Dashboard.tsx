@@ -23,7 +23,7 @@ export function Dashboard() {
     objective: 'mensagens WhatsApp',
     promo: '',
     audience: '',
-    variations: 3,
+    variations: 5,
     inspiration: '',
   });
 
@@ -168,111 +168,134 @@ export function Dashboard() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      {/* Form Section */}
-      <div className="lg:col-span-4 space-y-6">
-        <div className="bg-[#1A1A1A] p-6 rounded-2xl shadow-sm border border-zinc-800 sticky top-24">
-          <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-zinc-100">
-            <Sparkles className="text-rose-500" size={24} />
-            Novo Criativo
-          </h2>
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative">
+      {/* Background Glows */}
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-rose-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
-                <Tag size={16} className="text-zinc-500" /> Nicho da Loja
+      {/* Form Section */}
+      <div className="lg:col-span-4 space-y-6 relative z-10">
+        <div className="bg-[#1A1A1A]/80 backdrop-blur-xl p-6 rounded-3xl shadow-2xl border border-zinc-800/50 sticky top-24">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xl font-bold flex items-center gap-2 text-white">
+              <div className="w-8 h-8 bg-rose-600 rounded-lg flex items-center justify-center">
+                <Sparkles className="text-white" size={18} />
+              </div>
+              Novo Criativo
+            </h2>
+            {!isPro && (
+              <Link href="/plans" className="text-[10px] font-bold uppercase tracking-wider bg-rose-600/20 text-rose-400 px-2 py-1 rounded-md border border-rose-500/20 hover:bg-rose-600 hover:text-white transition-all">
+                Upgrade Pro
+              </Link>
+            )}
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                <Tag size={12} /> Nicho da Loja
               </label>
               <input
                 required
                 type="text"
                 placeholder="ex: Loja de Roupas"
-                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all placeholder:text-zinc-600"
+                className="w-full px-4 py-3 bg-[#121212] border border-zinc-800 text-zinc-100 rounded-2xl focus:ring-2 focus:ring-rose-600/50 focus:border-rose-600 transition-all placeholder:text-zinc-700 text-sm"
                 value={inputs.niche}
                 onChange={(e) => setInputs({ ...inputs, niche: e.target.value })}
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
-                <MapPin size={16} className="text-zinc-500" /> Cidade/Região
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                <MapPin size={12} /> Cidade/Região
               </label>
               <input
                 required
                 type="text"
                 placeholder="ex: Florianópolis SC"
-                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all placeholder:text-zinc-600"
+                className="w-full px-4 py-3 bg-[#121212] border border-zinc-800 text-zinc-100 rounded-2xl focus:ring-2 focus:ring-rose-600/50 focus:border-rose-600 transition-all placeholder:text-zinc-700 text-sm"
                 value={inputs.location}
                 onChange={(e) => setInputs({ ...inputs, location: e.target.value })}
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
-                <Target size={16} className="text-zinc-500" /> Objetivo Principal
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                <Target size={12} /> Objetivo Principal
               </label>
               <select
-                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all"
+                className="w-full px-4 py-3 bg-[#121212] border border-zinc-800 text-zinc-100 rounded-2xl focus:ring-2 focus:ring-rose-600/50 focus:border-rose-600 transition-all text-sm appearance-none cursor-pointer"
                 value={inputs.objective}
                 onChange={(e) => setInputs({ ...inputs, objective: e.target.value })}
               >
-                <option value="visitas na loja física">Visitas na loja física</option>
-                <option value="mensagens WhatsApp">Mensagens WhatsApp</option>
-                <option value="vendas online">Vendas online</option>
-                <option value="tráfego para site">Tráfego para site</option>
-                <option value="visitas pro perfil do Instagram">Visitas pro perfil do Instagram</option>
+                <option value="visitas na loja física">📍 Visitas na loja física</option>
+                <option value="mensagens WhatsApp">💬 Mensagens WhatsApp</option>
+                <option value="vendas online">🛒 Vendas online</option>
+                <option value="tráfego para site">🌐 Tráfego para site</option>
+                <option value="visitas pro perfil do Instagram">📸 Perfil do Instagram</option>
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
-                <Sparkles size={16} className="text-zinc-500" /> Promo/Destaque
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                <Sparkles size={12} /> Promo/Destaque
               </label>
               <input
                 required
                 type="text"
                 placeholder="ex: Promo Black Friday"
-                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all placeholder:text-zinc-600"
+                className="w-full px-4 py-3 bg-[#121212] border border-zinc-800 text-zinc-100 rounded-2xl focus:ring-2 focus:ring-rose-600/50 focus:border-rose-600 transition-all placeholder:text-zinc-700 text-sm"
                 value={inputs.promo}
                 onChange={(e) => setInputs({ ...inputs, promo: e.target.value })}
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
-                <Users size={16} className="text-zinc-500" /> Público Alvo
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                <Users size={12} /> Público Alvo
               </label>
               <input
                 required
                 type="text"
                 placeholder="ex: Mulheres 25-45 anos"
-                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all placeholder:text-zinc-600"
+                className="w-full px-4 py-3 bg-[#121212] border border-zinc-800 text-zinc-100 rounded-2xl focus:ring-2 focus:ring-rose-600/50 focus:border-rose-600 transition-all placeholder:text-zinc-700 text-sm"
                 value={inputs.audience}
                 onChange={(e) => setInputs({ ...inputs, audience: e.target.value })}
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
-                <Hash size={16} className="text-zinc-500" /> Variações de anúncio
-              </label>
-              <input
-                required
-                type="number"
-                min="1"
-                max="10"
-                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all"
-                value={inputs.variations}
-                onChange={(e) => setInputs({ ...inputs, variations: parseInt(e.target.value) })}
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                  <Hash size={10} /> Variações
+                </label>
+                <input
+                  required
+                  type="number"
+                  min="1"
+                  max="10"
+                  className="w-full px-4 py-3 bg-[#121212] border border-zinc-800 text-zinc-100 rounded-2xl focus:ring-2 focus:ring-rose-600/50 focus:border-rose-600 transition-all text-sm"
+                  value={inputs.variations}
+                  onChange={(e) => setInputs({ ...inputs, variations: parseInt(e.target.value) })}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                  <Lock size={10} /> Modelo
+                </label>
+                <div className="w-full px-4 py-3 bg-[#121212] border border-zinc-800 text-zinc-500 rounded-2xl text-[10px] font-bold flex items-center justify-center uppercase">
+                  Gemini 2.0 Flash
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-1 flex items-center gap-2">
-                <MessageSquare size={16} className="text-zinc-500" /> Legenda de Inspiração (Opcional)
+            <div className="space-y-1.5">
+              <label className="text-xs font-bold text-zinc-500 uppercase tracking-widest flex items-center gap-2">
+                <MessageSquare size={12} /> Inspiração (Opcional)
               </label>
               <textarea
-                placeholder="Cole aqui uma legenda que já converteu bem para a IA clonar o estilo..."
-                className="w-full px-4 py-2 bg-[#242424] border border-zinc-700 text-zinc-100 rounded-xl focus:ring-2 focus:ring-rose-600 focus:border-rose-600 transition-all placeholder:text-zinc-600 min-h-[100px] resize-y"
+                placeholder="Cole uma legenda que já converteu bem..."
+                className="w-full px-4 py-3 bg-[#121212] border border-zinc-800 text-zinc-100 rounded-2xl focus:ring-2 focus:ring-rose-600/50 focus:border-rose-600 transition-all placeholder:text-zinc-700 text-sm min-h-[80px] resize-none"
                 value={inputs.inspiration || ''}
                 onChange={(e) => setInputs({ ...inputs, inspiration: e.target.value })}
               />
@@ -281,23 +304,19 @@ export function Dashboard() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-rose-600 hover:bg-rose-700 text-white font-medium py-3 px-4 rounded-xl transition-all disabled:opacity-70 flex items-center justify-center gap-2 mt-6"
+              className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-4 rounded-2xl transition-all disabled:opacity-70 flex items-center justify-center gap-2 mt-4 shadow-lg shadow-rose-600/20 active:scale-[0.98]"
             >
               {loading ? (
                 <>
                   <Loader2 className="animate-spin" size={20} />
-                  Gerando...
+                  Gerando Criativos...
                 </>
               ) : (
-                'Gerar Criativos 🔥'
+                <>
+                  Gerar Criativos 🔥
+                </>
               )}
             </button>
-            
-            {loading && (
-              <p className="text-xs text-center text-rose-400 mt-2 animate-pulse">
-                ⚠️ Por favor, não atualize a página. Isso pode levar até 15 segundos.
-              </p>
-            )}
           </form>
         </div>
       </div>
@@ -367,103 +386,122 @@ export function Dashboard() {
         )}
 
         {results && !loading && (
-          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="flex justify-end gap-3 mb-4">
-              <button
-                onClick={exportToImage}
-                disabled={isExporting}
-                className="flex items-center gap-2 px-4 py-2 bg-[#242424] hover:bg-zinc-800 border border-zinc-700 text-zinc-300 rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
-              >
-                {isExporting ? <Loader2 size={16} className="animate-spin" /> : <ImageIcon size={16} />}
-                Exportar Imagem
-              </button>
-              <button
-                onClick={exportToPDF}
-                disabled={isExporting}
-                className="flex items-center gap-2 px-4 py-2 bg-[#242424] hover:bg-zinc-800 border border-zinc-700 text-zinc-300 rounded-xl text-sm font-medium transition-colors disabled:opacity-50"
-              >
-                {isExporting ? <Loader2 size={16} className="animate-spin" /> : <FileText size={16} />}
-                Exportar PDF
-              </button>
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 relative z-10">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+              <div>
+                <h2 className="text-2xl font-bold text-white">Seus Criativos 🔥</h2>
+                <p className="text-zinc-500 text-sm">Gerações otimizadas para alta conversão.</p>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={exportToImage}
+                  disabled={isExporting}
+                  className="flex items-center gap-2 px-4 py-2.5 bg-[#1A1A1A] hover:bg-zinc-800 border border-zinc-800 text-zinc-300 rounded-2xl text-xs font-bold uppercase tracking-widest transition-all disabled:opacity-50"
+                >
+                  {isExporting ? <Loader2 size={14} className="animate-spin" /> : <ImageIcon size={14} />}
+                  Imagem
+                </button>
+                <button
+                  onClick={exportToPDF}
+                  disabled={isExporting}
+                  className="flex items-center gap-2 px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-2xl text-xs font-bold uppercase tracking-widest transition-all disabled:opacity-50 shadow-lg shadow-rose-600/20"
+                >
+                  {isExporting ? <Loader2 size={14} className="animate-spin" /> : <FileText size={14} />}
+                  PDF
+                </button>
+              </div>
             </div>
 
-            <div id="creative-results" className="space-y-6 p-4 -m-4 bg-[#121212] rounded-2xl">
+            <div id="creative-results" className="space-y-8 p-6 -m-6 bg-[#121212] rounded-3xl">
               {/* Prediction Card */}
-              <div className="bg-emerald-950/30 border border-emerald-900/50 p-6 rounded-2xl">
-                <h3 className="text-emerald-400 font-bold mb-2 flex items-center gap-2">
-                  <Target size={20} />
+              <div className="bg-emerald-500/5 border border-emerald-500/20 p-8 rounded-3xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 blur-[60px] pointer-events-none"></div>
+                <h3 className="text-emerald-400 font-black text-sm uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+                  <Target size={18} />
                   Previsão de Performance
                 </h3>
-                <p className="text-emerald-300/90">{results.prediction}</p>
+                <p className="text-emerald-100/90 text-lg leading-relaxed font-medium">{results.prediction}</p>
               </div>
 
               {/* Variations */}
-              <div className="space-y-6">
+              <div className="grid grid-cols-1 gap-8">
                 {results.variations?.map((variation: any, idx: number) => (
-                  <div key={idx} className="bg-[#1A1A1A] border border-zinc-800 p-6 rounded-2xl shadow-sm">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-bold text-zinc-100 flex items-center gap-2">
-                        <span className="bg-rose-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">{idx + 1}</span>
-                        Variação {idx + 1}
-                      </h3>
+                  <div key={idx} className="bg-[#1A1A1A]/50 backdrop-blur-sm border border-zinc-800/50 p-8 rounded-[2.5rem] shadow-xl relative group hover:border-rose-500/30 transition-all">
+                    {/* Decorative Corners */}
+                    <div className="absolute top-6 left-6 w-4 h-4 border-t-2 border-l-2 border-rose-500/30 rounded-tl-lg"></div>
+                    <div className="absolute bottom-6 right-6 w-4 h-4 border-b-2 border-r-2 border-rose-500/30 rounded-br-lg"></div>
+
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-rose-600 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg shadow-rose-600/20">
+                          {idx + 1}
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-black text-white uppercase tracking-tight">Variação {idx + 1}</h3>
+                          <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest">Foco em {inputs.objective}</p>
+                        </div>
+                      </div>
                       <button
                         onClick={() => handleCopy(`🔥 HEADLINE:\n${variation.headline}\n\n📝 TEXTO PRINCIPAL:\n${variation.primaryText}\n\n💡 DESCRIÇÃO:\n${variation.description}\n\n🎣 HOOK INICIAL:\n${variation.hook}\n\n📸 PROMPT DE IMAGEM:\n${variation.prompt}`, `var-${idx}`)}
-                        className="text-zinc-500 hover:text-rose-500 transition-colors flex items-center gap-2 text-sm font-medium"
+                        className="bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-rose-500 px-4 py-2 rounded-xl transition-all flex items-center gap-2 text-xs font-bold uppercase tracking-widest border border-zinc-800"
                       >
-                        {copied === `var-${idx}` ? <><Check size={16} className="text-emerald-500" /> Copiado</> : <><Copy size={16} /> Copiar Variação</>}
+                        {copied === `var-${idx}` ? <><Check size={14} className="text-emerald-500" /> Copiado</> : <><Copy size={14} /> Copiar Tudo</>}
                       </button>
                     </div>
                     
-                    <div className="space-y-4">
-                      <div className="group relative">
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">📝 Texto Principal</span>
-                          <button onClick={() => handleCopy(variation.primaryText, `text-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
+                    <div className="space-y-8">
+                      <div className="relative">
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600">📝 Texto Principal (Copy)</span>
+                          <button onClick={() => handleCopy(variation.primaryText, `text-${idx}`)} className="text-zinc-600 hover:text-rose-400 transition-colors">
                             {copied === `text-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                           </button>
                         </div>
-                        <p className="text-zinc-300 whitespace-pre-wrap">{variation.primaryText}</p>
+                        <div className="bg-[#121212] p-6 rounded-2xl border border-zinc-800/50">
+                          <p className="text-zinc-300 text-base leading-relaxed whitespace-pre-wrap font-medium">{variation.primaryText}</p>
+                        </div>
                       </div>
                       
-                      <div className="bg-[#242424] p-4 rounded-xl border border-zinc-800">
-                        <div className="group relative">
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">🔥 Título (Headline)</span>
-                            <button onClick={() => handleCopy(variation.headline, `head-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="bg-rose-600/5 p-6 rounded-3xl border border-rose-500/10 relative overflow-hidden">
+                          <div className="flex justify-between items-center mb-3">
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-rose-500/70">🔥 Título (Headline)</span>
+                            <button onClick={() => handleCopy(variation.headline, `head-${idx}`)} className="text-rose-500/50 hover:text-rose-400 transition-colors">
                               {copied === `head-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                             </button>
                           </div>
-                          <p className="font-bold text-zinc-100 text-lg">{variation.headline}</p>
+                          <p className="font-black text-white text-xl leading-tight">{variation.headline}</p>
                         </div>
-                        <div className="group relative mt-4">
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">💡 Descrição</span>
-                            <button onClick={() => handleCopy(variation.description, `desc-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
+
+                        <div className="bg-zinc-900/50 p-6 rounded-3xl border border-zinc-800/50">
+                          <div className="flex justify-between items-center mb-3">
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600">💡 Descrição</span>
+                            <button onClick={() => handleCopy(variation.description, `desc-${idx}`)} className="text-zinc-600 hover:text-rose-400 transition-colors">
                               {copied === `desc-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                             </button>
                           </div>
-                          <p className="text-zinc-400 text-sm">{variation.description}</p>
+                          <p className="text-zinc-400 text-sm font-medium">{variation.description}</p>
                         </div>
                       </div>
 
-                      <div className="bg-rose-950/20 p-4 rounded-xl border border-rose-900/30 group relative">
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs font-bold uppercase tracking-wider text-rose-400">🎣 Gancho (Hook)</span>
-                          <button onClick={() => handleCopy(variation.hook, `hook-${idx}`)} className="text-rose-400 hover:text-rose-300 transition-colors">
+                      <div className="bg-purple-600/5 p-6 rounded-3xl border border-purple-500/10">
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-purple-400">🎣 Gancho (Hook)</span>
+                          <button onClick={() => handleCopy(variation.hook, `hook-${idx}`)} className="text-purple-400/50 hover:text-purple-300 transition-colors">
                             {copied === `hook-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                           </button>
                         </div>
-                        <p className="text-zinc-300">{variation.hook}</p>
+                        <p className="text-zinc-300 font-medium italic">&quot;{variation.hook}&quot;</p>
                       </div>
 
-                      <div className="bg-[#242424] border border-zinc-800 p-4 rounded-xl group relative">
-                        <div className="flex justify-between items-center mb-1">
-                          <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">📸 Prompt de Imagem</span>
-                          <button onClick={() => handleCopy(variation.prompt, `prompt-${idx}`)} className="text-zinc-500 hover:text-rose-400 transition-colors">
+                      <div className="bg-[#0A0A0A] border border-zinc-800/50 p-6 rounded-3xl relative group/prompt">
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600">📸 Prompt de Imagem (IA)</span>
+                          <button onClick={() => handleCopy(variation.prompt, `prompt-${idx}`)} className="text-zinc-600 hover:text-rose-400 transition-colors">
                             {copied === `prompt-${idx}` ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
                           </button>
                         </div>
-                        <p className="font-mono text-sm leading-relaxed text-zinc-400">{variation.prompt}</p>
+                        <p className="font-mono text-xs leading-relaxed text-zinc-500 group-hover/prompt:text-zinc-400 transition-colors">{variation.prompt}</p>
                       </div>
                     </div>
                   </div>
@@ -472,9 +510,10 @@ export function Dashboard() {
 
               {/* Final CTA */}
               {results.finalCTA && (
-                <div className="bg-rose-950/30 border border-rose-900/50 p-6 rounded-2xl text-center">
-                  <h3 className="text-rose-400 font-bold mb-2">CTA Final Recomendado</h3>
-                  <p className="text-zinc-200 font-medium text-lg">{results.finalCTA}</p>
+                <div className="bg-gradient-to-r from-rose-600/10 to-purple-600/10 border border-rose-500/20 p-10 rounded-[3rem] text-center relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,rgba(225,29,72,0.05)_0%,transparent_70%)]"></div>
+                  <h3 className="text-rose-500 font-black text-xs uppercase tracking-[0.4em] mb-4 relative z-10">CTA Final Recomendado</h3>
+                  <p className="text-white font-black text-2xl md:text-3xl tracking-tight relative z-10">{results.finalCTA}</p>
                 </div>
               )}
             </div>

@@ -101,72 +101,71 @@ export function History() {
     ? history.filter(item => item.outputs.is_favorite)
     : history;
 
-  if (history.length === 0) {
-    return (
-      <div className="bg-[#1A1A1A] border border-zinc-800 border-dashed rounded-2xl p-12 text-center flex flex-col items-center justify-center">
-        <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mb-4">
-          <Calendar className="text-zinc-500" size={32} />
-        </div>
-        <h3 className="text-xl font-medium text-zinc-100 mb-2">Nenhum histórico encontrado</h3>
-        <p className="text-zinc-400 max-w-md">
-          Você ainda não gerou nenhum criativo. Volte para a aba &quot;Gerar Criativos&quot; e faça sua primeira geração!
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <h2 className="text-2xl font-bold text-zinc-100">Seus Criativos Gerados</h2>
+    <div className="space-y-8 relative">
+      {/* Background Glows */}
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-rose-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8 relative z-10">
+        <div>
+          <h2 className="text-2xl font-black text-white uppercase tracking-tight">Histórico de Gerações</h2>
+          <p className="text-zinc-500 text-sm">Acesse seus criativos gerados anteriormente.</p>
+        </div>
         
-        <div className="flex bg-[#1A1A1A] p-1 rounded-xl border border-zinc-800 w-full sm:w-auto">
+        <div className="flex bg-[#1A1A1A]/80 backdrop-blur-md p-1.5 rounded-2xl border border-zinc-800/50 w-full sm:w-auto shadow-xl">
           <button
             onClick={() => setFilter('all')}
-            className={`flex-1 sm:flex-none px-4 py-2 text-sm font-medium rounded-lg transition-colors ${filter === 'all' ? 'bg-zinc-800 text-white' : 'text-zinc-400 hover:text-zinc-200'}`}
+            className={`flex-1 sm:flex-none px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-xl transition-all ${filter === 'all' ? 'bg-rose-600 text-white shadow-lg shadow-rose-600/20' : 'text-zinc-500 hover:text-zinc-200'}`}
           >
             Todos
           </button>
           <button
             onClick={() => setFilter('favorites')}
-            className={`flex-1 sm:flex-none px-4 py-2 text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 ${filter === 'favorites' ? 'bg-zinc-800 text-rose-400' : 'text-zinc-400 hover:text-zinc-200'}`}
+            className={`flex-1 sm:flex-none px-6 py-2.5 text-xs font-black uppercase tracking-widest rounded-xl transition-all flex items-center justify-center gap-2 ${filter === 'favorites' ? 'bg-rose-600 text-white shadow-lg shadow-rose-600/20' : 'text-zinc-500 hover:text-zinc-200'}`}
           >
-            <Star size={16} className={filter === 'favorites' ? "fill-rose-400" : ""} />
+            <Star size={14} className={filter === 'favorites' ? "fill-white" : ""} />
             Favoritos
           </button>
         </div>
       </div>
 
       {filteredHistory.length === 0 ? (
-        <div className="bg-[#1A1A1A] border border-zinc-800 border-dashed rounded-2xl p-12 text-center flex flex-col items-center justify-center">
-          <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mb-4">
-            <Star className="text-zinc-500" size={32} />
+        <div className="bg-[#1A1A1A]/50 backdrop-blur-sm border border-zinc-800 border-dashed rounded-[2.5rem] p-20 text-center flex flex-col items-center justify-center relative z-10">
+          <div className="w-20 h-20 bg-zinc-900 rounded-3xl flex items-center justify-center mb-6 shadow-2xl border border-zinc-800">
+            {filter === 'favorites' ? <Star className="text-rose-500" size={32} /> : <Calendar className="text-zinc-500" size={32} />}
           </div>
-          <h3 className="text-xl font-medium text-zinc-100 mb-2">Nenhum favorito encontrado</h3>
-          <p className="text-zinc-400 max-w-md">
-            Você ainda não marcou nenhum criativo como favorito. Clique na estrela em um criativo para salvá-lo aqui.
+          <h3 className="text-2xl font-black text-white mb-3 uppercase tracking-tight">
+            {filter === 'favorites' ? 'Nenhum favorito encontrado' : 'Nenhum histórico encontrado'}
+          </h3>
+          <p className="text-zinc-500 max-w-md leading-relaxed">
+            {filter === 'favorites' 
+              ? 'Você ainda não marcou nenhum criativo como favorito. Clique na estrela em um criativo para salvá-lo aqui.'
+              : 'Você ainda não gerou nenhum criativo. Volte para a aba "Gerar Criativos" e faça sua primeira geração!'}
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
           {filteredHistory.map((item) => (
-            <div key={item.id} className="bg-[#1A1A1A] border border-zinc-800 rounded-2xl p-6 shadow-sm hover:border-zinc-700 transition-colors flex flex-col h-full relative group">
-              <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-rose-500 bg-rose-950/30 px-3 py-1 rounded-full">
-                  <Tag size={14} />
+            <div key={item.id} className="bg-[#1A1A1A]/50 backdrop-blur-sm border border-zinc-800/50 rounded-[2rem] p-8 shadow-xl hover:border-rose-500/30 transition-all flex flex-col h-full relative group">
+              {/* Decorative Corner */}
+              <div className="absolute top-4 left-4 w-3 h-3 border-t border-l border-zinc-800 rounded-tl-md group-hover:border-rose-500/30 transition-colors"></div>
+
+              <div className="flex justify-between items-start mb-6">
+                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-rose-400 bg-rose-600/10 px-3 py-1.5 rounded-lg border border-rose-500/10">
+                  <Tag size={12} />
                   {item.inputs.niche}
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
                   <button
                     onClick={() => toggleFavorite(item)}
-                    className={`p-1.5 rounded-lg transition-colors ${item.outputs.is_favorite ? 'text-rose-400 bg-rose-400/10' : 'text-zinc-500 hover:text-rose-400 hover:bg-zinc-800'}`}
+                    className={`p-2 rounded-xl transition-all ${item.outputs.is_favorite ? 'text-rose-400 bg-rose-400/10 border border-rose-500/20' : 'text-zinc-600 hover:text-rose-400 hover:bg-zinc-800 border border-transparent'}`}
                     title={item.outputs.is_favorite ? "Remover dos favoritos" : "Salvar como favorito"}
                   >
                     <Star size={18} className={item.outputs.is_favorite ? "fill-rose-400" : ""} />
                   </button>
                   <button
                     onClick={() => handleCopy(item)}
-                    className="text-zinc-500 hover:text-emerald-500 hover:bg-zinc-800 p-1.5 rounded-lg transition-colors"
+                    className="text-zinc-600 hover:text-emerald-500 hover:bg-zinc-800 p-2 rounded-xl transition-all border border-transparent"
                     title="Copiar Copy"
                   >
                     {copied === item.id ? <Check size={18} className="text-emerald-500" /> : <Copy size={18} />}
@@ -174,21 +173,21 @@ export function History() {
                 </div>
               </div>
             
-            <h3 className="font-bold text-zinc-100 text-lg mb-2 line-clamp-2">
+            <h3 className="font-black text-white text-xl mb-3 line-clamp-2 tracking-tight leading-tight">
               {item.outputs.variations ? item.outputs.variations[0].headline : item.outputs.copy?.headline}
             </h3>
             
-            <p className="text-zinc-400 text-sm line-clamp-3 mb-4 flex-grow">
+            <p className="text-zinc-500 text-sm line-clamp-4 mb-8 flex-grow leading-relaxed font-medium">
               {item.outputs.variations ? item.outputs.variations[0].primaryText : item.outputs.copy?.primaryText}
             </p>
 
-            <div className="pt-4 border-t border-zinc-800 flex items-center justify-between text-sm text-zinc-500 mt-auto">
-              <div className="flex items-center gap-1">
-                <Target size={14} />
+            <div className="pt-6 border-t border-zinc-800/50 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.2em] text-zinc-600 mt-auto">
+              <div className="flex items-center gap-2">
+                <Target size={12} className="text-rose-500/50" />
                 {item.inputs.objective}
               </div>
-              <div className="flex items-center gap-1">
-                <Calendar size={14} />
+              <div className="flex items-center gap-2">
+                <Calendar size={12} className="text-zinc-700" />
                 {new Date(item.created_at).toLocaleDateString('pt-BR')}
               </div>
             </div>
