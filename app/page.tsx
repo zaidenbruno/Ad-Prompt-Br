@@ -1,8 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import { useAuth } from '../components/AuthProvider';
 import { useRouter } from 'next/navigation';
-import { Zap, Clock, TrendingUp, Target, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Zap, Clock, TrendingUp, Target, CheckCircle2, ArrowRight, Sparkles as LucideSparkles } from 'lucide-react';
 import Link from 'next/link';
 import { supabase } from '../lib/supabase';
 
@@ -61,19 +62,26 @@ export default function LandingPage() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-rose-600/10 blur-[120px] rounded-full"></div>
             
             {/* MacBook (Center/Back) */}
-            <div className="relative z-0 w-full opacity-40 md:opacity-60 animate-[float_8s_ease-in-out_infinite] p-4">
-              {/* Cantoneiras Decorativas (Bordinhas nas pontas) */}
-              <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-rose-500/30 rounded-tl-[32px]"></div>
-              <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-rose-500/30 rounded-tr-[32px]"></div>
-              <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-rose-500/30 rounded-bl-[32px]"></div>
-              <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-rose-500/30 rounded-br-[32px]"></div>
-              
-              <img src="/macbook.png" alt="" className="w-full h-auto drop-shadow-2xl" />
+            <div className="relative z-0 w-full animate-[float_8s_ease-in-out_infinite] p-4">
+              <Image 
+                src="/macbook.png" 
+                alt="MacBook Preview" 
+                width={1200} 
+                height={800} 
+                className="w-full h-auto drop-shadow-2xl"
+                priority
+              />
             </div>
 
             {/* iPad (Right/Front) */}
-            <div className="absolute -right-8 md:-right-16 -bottom-10 z-10 w-[35%] max-w-[280px] opacity-50 md:opacity-80 animate-[float_8s_ease-in-out_4s_infinite]">
-              <img src="/ipad.png" alt="" className="w-full h-auto drop-shadow-2xl" />
+            <div className="absolute -right-8 md:-right-16 -bottom-10 z-10 w-[35%] max-w-[280px] animate-[float_8s_ease-in-out_4s_infinite]">
+              <Image 
+                src="/ipad.png" 
+                alt="iPad Preview" 
+                width={600} 
+                height={800} 
+                className="w-full h-auto drop-shadow-2xl"
+              />
             </div>
           </div>
 
@@ -188,11 +196,11 @@ export default function LandingPage() {
           {[1, 2, 4, 5].map((i) => (
             <div key={i} className="min-w-[280px] sm:min-w-[320px] bg-[#1A1A1A] border border-zinc-800 rounded-3xl overflow-hidden flex flex-col hover:border-rose-500/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(225,29,72,0.3)] group snap-center">
               <div className="relative aspect-[9/16] w-full overflow-hidden bg-zinc-900">
-                {/* As imagens devem ser salvas na pasta public/ como metrica-1.png, metrica-2.png, etc. */}
-                <img 
+                <Image 
                   src={`/metrica-${i}.png`} 
                   alt={`Métrica Comprovada ${i}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               </div>
             </div>

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from './AuthProvider';
+import Image from 'next/image';
 import { LogOut, Home as HomeIcon, User, CreditCard, LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
 import { supabase } from '../lib/supabase';
@@ -59,7 +60,9 @@ export function Navbar() {
                   className="flex items-center gap-3 hover:bg-zinc-800 p-1.5 pr-3 rounded-full border border-zinc-800 transition-colors"
                 >
                   {avatarUrl ? (
-                    <img src={avatarUrl} alt="Avatar" className="w-8 h-8 rounded-full object-cover" />
+                    <div className="relative w-8 h-8 rounded-full overflow-hidden">
+                      <Image src={avatarUrl} alt="Avatar" fill className="object-cover" />
+                    </div>
                   ) : (
                     <div className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center text-zinc-400">
                       <User size={16} />
@@ -123,7 +126,9 @@ export function Navbar() {
                 }}
                 className="bg-rose-600 hover:bg-rose-700 text-white font-medium py-2 px-6 rounded-full flex items-center gap-2 text-sm transition-colors shadow-lg shadow-rose-600/20"
               >
-                <img src="https://www.google.com/favicon.ico" className="w-4 h-4 bg-white rounded-full p-0.5" alt="Google" />
+                <div className="relative w-4 h-4 bg-white rounded-full p-0.5">
+                  <Image src="https://www.google.com/favicon.ico" alt="Google" width={16} height={16} />
+                </div>
                 Entrar com Google
               </button>
             )}
