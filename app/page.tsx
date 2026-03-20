@@ -111,7 +111,7 @@ export default function LandingPage() {
             </div>
             
             <p className="text-base md:text-xl text-zinc-300 max-w-3xl mx-auto leading-relaxed px-4">
-              IA treinada no Brasil gera copy + prompt de imagem que vende de verdade em 10 segundos. Sem precisar ser gestor de tráfego. Perfeito para moda, suplementos, beleza e WhatsApp.
+              IA treinada no Brasil gera copys matadoras + ideias de imagens que realmente chamam atenção. Tudo em segundos. Feito pra quem vende no instagram,facebook ou no WhatsApp.
             </p>
             
             <div className="pt-2">
