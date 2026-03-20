@@ -355,64 +355,31 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials Section - WhatsApp Style */}
+      {/* Testimonials Section - Real Screenshots */}
       <section className="py-24 bg-[#121212] px-4 sm:px-6 lg:px-8 border-t border-zinc-800/50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Quem usa, aprova ⭐️</h2>
-            <p className="text-zinc-400">Resultados reais de lojistas que pararam de perder tempo com copy ruim.</p>
+            <p className="text-zinc-400">Resultados reais em prints reais de lojistas que pararam de perder tempo com copy ruim.</p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                name: "Juliana Mendes",
-                role: "Loja de Roupas - SP",
-                time: "10:42",
-                text: "Leo, tô usando o Ad Prompt BR há 1 mês e meus anúncios de vestido subiram de 1,8% pra 5,2% de CTR. Vendi 47 peças em 3 dias com um único criativo. O plano vitalício foi o melhor investimento que fiz esse ano! 🔥"
-              },
-              {
-                name: "Rafael Costa",
-                role: "Suplementos - RJ",
-                time: "14:17",
-                text: "Cara, o prompt que gerei pro whey fez 18 vendas no primeiro dia. Antes eu passava horas escrevendo. Agora em 10 segundos tenho copy + imagem pronta. Recomendo demais pro pessoal que vende suplemento! O vitalício de 19,90 vale cada centavo."
-              },
-              {
-                name: "Mariana Silva",
-                role: "Cosméticos - MG",
-                time: "09:05",
-                text: "Pele de porcelana em 7 dias – esse foi o anúncio que gerei com a Ad Prompt BR. Tá vendendo tanto que já pedi reposição do creme. Meu faturamento subiu 40% esse mês. Obrigada! Melhor ferramenta que usei pra loja de cosméticos."
-              },
-              {
-                name: "Carlos Oliveira",
-                role: "Loja Física - PR",
-                time: "18:33",
-                text: "Uso todo dia pra anunciar no WhatsApp e Instagram. Os prompts são perfeitos pro público brasileiro. Meu custo por clique caiu 40% e as vendas aumentaram bastante. Vale cada centavo do vitalício. Recomendo pra qualquer lojista!"
-              }
-            ].map((t, i) => (
-              <div key={i} className="bg-[#0b141a] p-4 rounded-2xl border border-zinc-800/50 shadow-xl flex flex-col h-full">
-                {/* Header fake */}
-                <div className="flex items-center gap-3 mb-4 border-b border-zinc-800/50 pb-3">
-                  <div className="w-10 h-10 bg-zinc-700 rounded-full flex items-center justify-center text-zinc-300 font-bold shrink-0">
-                    {t.name.charAt(0)}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-[#e9edef] font-semibold text-sm truncate">{t.name}</div>
-                    <div className="text-[#8696a0] text-xs truncate">{t.role}</div>
-                  </div>
-                </div>
-                {/* Message Bubble */}
-                <div className="bg-[#202c33] rounded-tr-xl rounded-br-xl rounded-bl-xl p-3 relative ml-2 mt-auto">
-                  {/* Tail */}
-                  <div className="absolute top-0 -left-2 w-0 h-0 border-t-[10px] border-t-[#202c33] border-l-[10px] border-l-transparent"></div>
-                  <p className="text-[#e9edef] text-sm leading-relaxed">{t.text}</p>
-                  <div className="text-right mt-2 flex items-center justify-end gap-1">
-                    <span className="text-[#8696a0] text-[10px]">{t.time}</span>
-                    <CheckCircle2 className="w-3 h-3 text-[#53bdeb]" />
-                  </div>
+          <div className="flex overflow-x-auto pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 gap-6 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="min-w-[280px] sm:min-w-[320px] bg-[#1A1A1A] border border-zinc-800 rounded-3xl overflow-hidden flex flex-col hover:border-rose-500/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(225,29,72,0.3)] group snap-center">
+                <div className="relative aspect-[9/16] w-full overflow-hidden bg-zinc-900">
+                  <Image 
+                    src={`/depoimento-${i}.png`} 
+                    alt={`Depoimento Real ${i}`}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    unoptimized
+                  />
                 </div>
               </div>
             ))}
+          </div>
+          <div className="text-center mt-4">
+            <p className="text-rose-500 font-black tracking-widest text-xl uppercase">Resultados Reais 🔥</p>
           </div>
         </div>
       </section>
