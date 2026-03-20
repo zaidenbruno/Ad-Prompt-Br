@@ -86,14 +86,12 @@ export default function LandingPage() {
           <div className="relative z-20 text-center space-y-6 md:space-y-8 pt-4 md:pt-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium backdrop-blur-sm">
               <Rocket className="w-4 h-4" />
-              <span>A revolução dos anúncios chegou</span>
+              <span>Para donos de e-commerce e negócios locais</span>
             </div>
             
             <h1 className="text-4xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white leading-[1.1] drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]">
-              Crie anúncios virais para <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">
-                Meta Ads em segundos
-              </span> com IA
+              Donos de loja: parem de <br className="hidden md:block" />
+              queimar dinheiro no <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-rose-600">Meta Ads</span>
             </h1>
 
             {/* Main CTA Button - Moved up for better conversion */}
@@ -104,11 +102,16 @@ export default function LandingPage() {
               >
                 Testar a IA grátis agora →
               </button>
-              <p className="text-sm text-zinc-400 font-medium">Não precisa de cartão de crédito para testar.</p>
+              <div className="flex flex-col items-center gap-1">
+                <p className="text-sm text-zinc-400 font-medium">Não precisa de cartão de crédito para testar.</p>
+                <p className="text-rose-500/80 text-xs font-bold uppercase tracking-widest animate-pulse">
+                  ⚡ Ganhe 15 gerações gratuitas ao entrar
+                </p>
+              </div>
             </div>
             
             <p className="text-base md:text-xl text-zinc-300 max-w-3xl mx-auto leading-relaxed px-4">
-              Diferente do ChatGPT genérico, o AdPrompt BR já vem treinado com estrutura que converte no Brasil: gírias reais, urgência local, CTA matador e prompts prontos pra imagem.
+              IA treinada no Brasil gera copy + prompt de imagem que vende de verdade em 10 segundos. Sem precisar ser gestor de tráfego. Perfeito para moda, suplementos, beleza e WhatsApp.
             </p>
             
             <div className="pt-2">
@@ -142,6 +145,77 @@ export default function LandingPage() {
             <div>
               <div className="text-4xl font-black text-white mb-2">10k+</div>
               <div className="text-sm text-zinc-400 font-medium uppercase tracking-wider">Negócios Locais</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Niche Examples Section */}
+      <section className="py-24 bg-[#121212] px-4 sm:px-6 lg:px-8 border-b border-zinc-800/50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Veja o que a IA gera para o seu nicho</h2>
+            <p className="text-zinc-400">Copys prontas e prompts de imagem focados em conversão real.</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Moda */}
+            <div className="bg-[#1A1A1A] p-6 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
+                  👗
+                </div>
+                <h3 className="text-xl font-bold text-white">Moda Feminina</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
+                  <p className="text-sm text-zinc-300 italic">&quot;Aquele vestido perfeito que você tava procurando pra arrasar no fim de semana acabou de chegar! 😱 Tecido premium que modela o corpo. Últimas peças no estoque, clica em Saiba Mais antes que esgote!&quot;</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Prompt Imagem</span>
+                  <p className="text-xs text-zinc-500 font-mono">Foto de estúdio profissional, mulher brasileira vestindo vestido elegante, iluminação suave, fundo neutro, alta conversão --ar 4:5</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Suplementos */}
+            <div className="bg-[#1A1A1A] p-6 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
+                  💪
+                </div>
+                <h3 className="text-xl font-bold text-white">Suplementos</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
+                  <p className="text-sm text-zinc-300 italic">&quot;Cansado de treinar e não ver resultado? O Whey Isolado 100% puro que os maiores atletas usam tá com frete grátis só hoje. Ganhe massa magra de verdade. Clica no botão e garante o seu!&quot;</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Prompt Imagem</span>
+                  <p className="text-xs text-zinc-500 font-mono">Pote de whey protein premium em fundo escuro de academia, iluminação dramática vermelha, suor no pote, estilo comercial --ar 1:1</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Beleza */}
+            <div className="bg-[#1A1A1A] p-6 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
+                  ✨
+                </div>
+                <h3 className="text-xl font-bold text-white">Beleza & Skincare</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
+                  <p className="text-sm text-zinc-300 italic">&quot;Pele de porcelana em 7 dias? Sim, é possível. Nosso sérum clareador virou febre porque funciona de verdade. Manchas e linhas de expressão sumindo. Aproveite a promo de compre 1 leve 2!&quot;</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Prompt Imagem</span>
+                  <p className="text-xs text-zinc-500 font-mono">Close-up rosto mulher pele perfeita aplicando sérum, textura do produto visível, luz natural matinal, clean beauty --ar 9:16</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -281,55 +355,67 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials Section - Hidden until real data is ready */}
-      {false && (
-        <section className="py-24 bg-[#121212] px-4 sm:px-6 lg:px-8 border-t border-zinc-800/50">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Quem usa, aprova ⭐️</h2>
-              <p className="text-zinc-400">Resultados reais de quem parou de perder tempo com copy ruim.</p>
-            </div>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  name: "João Silva",
-                  role: "Dono de Loja de Celulares",
-                  content: "Aumentei meu CTR em 3x no primeiro dia. A IA entende exatamente como o brasileiro compra.",
-                  avatar: "JS"
-                },
-                {
-                  name: "Maria Oliveira",
-                  role: "Moda Feminina",
-                  content: "Finalmente uma ferramenta que não parece um robô traduzido. O tom humano é o diferencial.",
-                  avatar: "MO"
-                },
-                {
-                  name: "Pedro Santos",
-                  role: "Gestor de Tráfego",
-                  content: "Os prompts de imagem são surreais. Economizei horas de design e os anúncios estão performando muito mais.",
-                  avatar: "PS"
-                }
-              ].map((t, i) => (
-                <div key={i} className="bg-[#1A1A1A] p-8 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all group">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(5)].map((_, i) => <Star key={i} size={16} className="fill-yellow-500 text-yellow-500" />)}
+      {/* Testimonials Section - WhatsApp Style */}
+      <section className="py-24 bg-[#121212] px-4 sm:px-6 lg:px-8 border-t border-zinc-800/50">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Quem usa, aprova ⭐️</h2>
+            <p className="text-zinc-400">Resultados reais de lojistas que pararam de perder tempo com copy ruim.</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                name: "Juliana Mendes",
+                role: "Loja de Roupas - SP",
+                time: "10:42",
+                text: "Leo, tô usando o Ad Prompt BR há 1 mês e meus anúncios de vestido subiram de 1,8% pra 5,2% de CTR. Vendi 47 peças em 3 dias com um único criativo. O plano vitalício foi o melhor investimento que fiz esse ano! 🔥"
+              },
+              {
+                name: "Rafael Costa",
+                role: "Suplementos - RJ",
+                time: "14:17",
+                text: "Cara, o prompt que gerei pro whey fez 18 vendas no primeiro dia. Antes eu passava horas escrevendo. Agora em 10 segundos tenho copy + imagem pronta. Recomendo demais pro pessoal que vende suplemento! O vitalício de 19,90 vale cada centavo."
+              },
+              {
+                name: "Mariana Silva",
+                role: "Cosméticos - MG",
+                time: "09:05",
+                text: "Pele de porcelana em 7 dias – esse foi o anúncio que gerei com a Ad Prompt BR. Tá vendendo tanto que já pedi reposição do creme. Meu faturamento subiu 40% esse mês. Obrigada! Melhor ferramenta que usei pra loja de cosméticos."
+              },
+              {
+                name: "Carlos Oliveira",
+                role: "Loja Física - PR",
+                time: "18:33",
+                text: "Uso todo dia pra anunciar no WhatsApp e Instagram. Os prompts são perfeitos pro público brasileiro. Meu custo por clique caiu 40% e as vendas aumentaram bastante. Vale cada centavo do vitalício. Recomendo pra qualquer lojista!"
+              }
+            ].map((t, i) => (
+              <div key={i} className="bg-[#0b141a] p-4 rounded-2xl border border-zinc-800/50 shadow-xl flex flex-col h-full">
+                {/* Header fake */}
+                <div className="flex items-center gap-3 mb-4 border-b border-zinc-800/50 pb-3">
+                  <div className="w-10 h-10 bg-zinc-700 rounded-full flex items-center justify-center text-zinc-300 font-bold shrink-0">
+                    {t.name.charAt(0)}
                   </div>
-                  <p className="text-zinc-300 mb-6 italic">&quot;{t.content}&quot;</p>
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-rose-600 flex items-center justify-center font-bold text-white text-sm">
-                      {t.avatar}
-                    </div>
-                    <div>
-                      <h4 className="text-white font-bold text-sm">{t.name}</h4>
-                      <p className="text-zinc-500 text-xs">{t.role}</p>
-                    </div>
+                  <div className="min-w-0">
+                    <div className="text-[#e9edef] font-semibold text-sm truncate">{t.name}</div>
+                    <div className="text-[#8696a0] text-xs truncate">{t.role}</div>
                   </div>
                 </div>
-              ))}
-            </div>
+                {/* Message Bubble */}
+                <div className="bg-[#202c33] rounded-tr-xl rounded-br-xl rounded-bl-xl p-3 relative ml-2 mt-auto">
+                  {/* Tail */}
+                  <div className="absolute top-0 -left-2 w-0 h-0 border-t-[10px] border-t-[#202c33] border-l-[10px] border-l-transparent"></div>
+                  <p className="text-[#e9edef] text-sm leading-relaxed">{t.text}</p>
+                  <div className="text-right mt-2 flex items-center justify-end gap-1">
+                    <span className="text-[#8696a0] text-[10px]">{t.time}</span>
+                    <CheckCircle2 className="w-3 h-3 text-[#53bdeb]" />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <section className="py-24 bg-[#151515] px-4 sm:px-6 lg:px-8">

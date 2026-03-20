@@ -16,6 +16,7 @@ export function Dashboard() {
   const [results, setResults] = useState<any | null>(null);
   const [modelType, setModelType] = useState<'flash' | 'pro'>('flash');
   const [isExporting, setIsExporting] = useState(false);
+  const [generationCount, setGenerationCount] = useState<number | null>(null);
 
   const [inputs, setInputs] = useState({
     niche: '',
@@ -51,6 +52,20 @@ export function Dashboard() {
     }
   }, [results]);
 
+  // Fetch generation count
+  useEffect(() => {
+    if (user && !isPro) {
+      const fetchCount = async () => {
+        const { count } = await supabase
+          .from('generations')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', user.id);
+        setGenerationCount(count || 0);
+      };
+      fetchCount();
+    }
+  }, [user, isPro, results]);
+
   const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopied(id);
@@ -62,11 +77,8 @@ export function Dashboard() {
 
     // Check limits
     if (!user) {
-      const anonCount = parseInt(localStorage.getItem('anon_generations') || '0');
-      if (anonCount >= 1) {
-        alert('Você atingiu o limite de 1 geração gratuita. Faça login para continuar!');
-        return;
-      }
+      alert('Crie sua conta gratuita para gerar seus criativos! É rápido e não precisa de cartão.');
+      return;
     } else if (!isPro) {
       // Check user generations from Supabase
       const { count, error } = await supabase
@@ -74,8 +86,8 @@ export function Dashboard() {
         .select('*', { count: 'exact', head: true })
         .eq('user_id', user.id);
         
-      if (count !== null && count >= 3) {
-        alert('Você atingiu o limite de 3 gerações do plano gratuito. Faça upgrade para o plano Pro para gerar ilimitado!');
+      if (count !== null && count >= 15) {
+        alert('Você atingiu o limite de 15 gerações do plano gratuito. Faça upgrade para o plano Pro para gerar ilimitado!');
         return;
       }
     }
@@ -183,11 +195,18 @@ export function Dashboard() {
               </div>
               Novo Criativo
             </h2>
-            {!isPro && (
-              <Link href="/plans" className="text-[10px] font-bold uppercase tracking-wider bg-rose-600/20 text-rose-400 px-2 py-1 rounded-md border border-rose-500/20 hover:bg-rose-600 hover:text-white transition-all">
-                Upgrade Pro
-              </Link>
-            )}
+            <div className="flex flex-col items-end gap-1">
+              {!isPro && (
+                <Link href="/plans" className="text-[10px] font-bold uppercase tracking-wider bg-rose-600/20 text-rose-400 px-2 py-1 rounded-md border border-rose-500/20 hover:bg-rose-600 hover:text-white transition-all">
+                  Upgrade Pro
+                </Link>
+              )}
+              {user && !isPro && generationCount !== null && (
+                <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-tighter">
+                  {15 - generationCount} gerações restantes
+                </span>
+              )}
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -310,6 +329,11 @@ export function Dashboard() {
                 <>
                   <Loader2 className="animate-spin" size={20} />
                   Gerando Criativos...
+                </>
+              ) : !user ? (
+                <>
+                  <Sparkles size={20} className="text-yellow-300" />
+                  Entrar e Gerar Grátis 🔥
                 </>
               ) : (
                 <>
