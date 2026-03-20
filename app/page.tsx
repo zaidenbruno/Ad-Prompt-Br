@@ -150,85 +150,31 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Niche Examples Section */}
+      {/* Testimonials Section - Real Screenshots */}
       <section className="py-24 bg-[#121212] px-4 sm:px-6 lg:px-8 border-b border-zinc-800/50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Veja o que a IA gera para o seu nicho</h2>
-            <p className="text-zinc-400">Copys prontas e prompts de imagem focados em conversão real.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Quem usa, aprova ⭐️</h2>
+            <p className="text-zinc-400">Resultados reais em prints reais de lojistas que pararam de perder tempo com copy ruim.</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {/* Moda */}
-            <div className="bg-[#1A1A1A] p-6 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
-                  👗
-                </div>
-                <h3 className="text-xl font-bold text-white">Moda Feminina</h3>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Título</span>
-                  <p className="text-sm font-bold text-white">Vestidos que valorizam você com preços imperdíveis hoje</p>
-                </div>
-                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
-                  <p className="text-sm text-zinc-300 italic">&quot;Sabe aquele look que une conforto, elegância e frescor para o dia a dia no Rio? Nossa nova seleção de vestidos está com descontos especiais, mas as peças mais desejadas estão esgotando rápido. São modelos pensados para a mulher real que não abre mão do estilo. Clique agora e confira todos os detalhes no nosso perfil antes que a sua numeração acabe! ✨👗&quot;</p>
-                </div>
-                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Hook</span>
-                  <p className="text-xs text-zinc-400 italic">&quot;O vestido perfeito para o seu próximo evento está aqui.&quot;</p>
+          
+          <div className="flex overflow-x-auto pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 gap-6 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="min-w-[280px] sm:min-w-[320px] bg-[#1A1A1A] border border-zinc-800 rounded-3xl overflow-hidden flex flex-col hover:border-rose-500/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(225,29,72,0.3)] group snap-center">
+                <div className="relative aspect-[9/16] w-full overflow-hidden bg-zinc-900">
+                  <Image 
+                    src={`/depoimento-${i}.png`} 
+                    alt={`Depoimento Real ${i}`}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    unoptimized
+                  />
                 </div>
               </div>
-            </div>
-
-            {/* Suplementos */}
-            <div className="bg-[#1A1A1A] p-6 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
-                  💪
-                </div>
-                <h3 className="text-xl font-bold text-white">Suplementos</h3>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Título</span>
-                  <p className="text-sm font-bold text-white">Black Friday de Suplementos: Os menores preços de SP! 🔥</p>
-                </div>
-                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
-                  <p className="text-sm text-zinc-300 italic">&quot;Sua chance de garantir o estoque de suplementos para o ano todo com preço de atacado chegou. Selecionamos as melhores marcas de Whey, Creatina e Pré-treino com descontos reais de Black Friday. Não arrisque sua evolução com produtos duvidosos ou prazos longos de entrega. Temos estoque à pronta entrega em São Paulo e atendimento humanizado. Clique no botão abaixo, tire suas dúvidas e faça sua reserva agora antes que as prateleiras esvaziem! 💥⚡&quot;</p>
-                </div>
-                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Hook</span>
-                  <p className="text-xs text-zinc-400 italic">&quot;Quer os melhores suplementos do mercado pelo menor preço do ano?&quot;</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Beleza */}
-            <div className="bg-[#1A1A1A] p-6 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
-                  ✨
-                </div>
-                <h3 className="text-xl font-bold text-white">Beleza & Skincare</h3>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Título</span>
-                  <p className="text-sm font-bold text-white">Pele de porcelana em 7 dias? Veja como!</p>
-                </div>
-                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
-                  <p className="text-sm text-zinc-300 italic">&quot;Cansada de esconder manchas e linhas de expressão com maquiagem? ✨ Nosso sérum renovador se tornou o favorito porque entrega o que promete: uma pele radiante, clara e firme em apenas uma semana. Sinta a diferença no toque e recupere sua confiança com um tratamento profissional no conforto de casa. Aproveite nossa promoção exclusiva de lançamento e garanta o seu antes que o estoque termine! 🛍️&quot;</p>
-                </div>
-                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Hook</span>
-                  <p className="text-xs text-zinc-400 italic">&quot;O segredo para uma pele impecável e sem manchas.&quot;</p>
-                </div>
-              </div>
-            </div>
+            ))}
+          </div>
+          <div className="text-center mt-4">
+            <p className="text-rose-500 font-black tracking-widest text-xl uppercase">Resultados Reais 🔥</p>
           </div>
         </div>
       </section>
@@ -367,31 +313,85 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonials Section - Real Screenshots */}
+      {/* Niche Examples Section */}
       <section className="py-24 bg-[#121212] px-4 sm:px-6 lg:px-8 border-t border-zinc-800/50">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Quem usa, aprova ⭐️</h2>
-            <p className="text-zinc-400">Resultados reais em prints reais de lojistas que pararam de perder tempo com copy ruim.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Veja o que a IA gera para o seu nicho</h2>
+            <p className="text-zinc-400">Copys prontas e prompts de imagem focados em conversão real.</p>
           </div>
-          
-          <div className="flex overflow-x-auto pb-8 -mx-4 px-4 sm:mx-0 sm:px-0 gap-6 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="min-w-[280px] sm:min-w-[320px] bg-[#1A1A1A] border border-zinc-800 rounded-3xl overflow-hidden flex flex-col hover:border-rose-500/30 transition-all hover:shadow-[0_0_30px_-10px_rgba(225,29,72,0.3)] group snap-center">
-                <div className="relative aspect-[9/16] w-full overflow-hidden bg-zinc-900">
-                  <Image 
-                    src={`/depoimento-${i}.png`} 
-                    alt={`Depoimento Real ${i}`}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    unoptimized
-                  />
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Moda */}
+            <div className="bg-[#1A1A1A] p-6 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
+                  👗
+                </div>
+                <h3 className="text-xl font-bold text-white">Moda Feminina</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Título</span>
+                  <p className="text-sm font-bold text-white">Vestidos que valorizam você com preços imperdíveis hoje</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
+                  <p className="text-sm text-zinc-300 italic">&quot;Sabe aquele look que une conforto, elegância e frescor para o dia a dia no Rio? Nossa nova seleção de vestidos está com descontos especiais, mas as peças mais desejadas estão esgotando rápido. São modelos pensados para a mulher real que não abre mão do estilo. Clique agora e confira todos os detalhes no nosso perfil antes que a sua numeração acabe! ✨👗&quot;</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Hook</span>
+                  <p className="text-xs text-zinc-400 italic">&quot;O vestido perfeito para o seu próximo evento está aqui.&quot;</p>
                 </div>
               </div>
-            ))}
-          </div>
-          <div className="text-center mt-4">
-            <p className="text-rose-500 font-black tracking-widest text-xl uppercase">Resultados Reais 🔥</p>
+            </div>
+
+            {/* Suplementos */}
+            <div className="bg-[#1A1A1A] p-6 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
+                  💪
+                </div>
+                <h3 className="text-xl font-bold text-white">Suplementos</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Título</span>
+                  <p className="text-sm font-bold text-white">Black Friday de Suplementos: Os menores preços de SP! 🔥</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
+                  <p className="text-sm text-zinc-300 italic">&quot;Sua chance de garantir o estoque de suplementos para o ano todo com preço de atacado chegou. Selecionamos as melhores marcas de Whey, Creatina e Pré-treino com descontos reais de Black Friday. Não arrisque sua evolução com produtos duvidosos ou prazos longos de entrega. Temos estoque à pronta entrega em São Paulo e atendimento humanizado. Clique no botão abaixo, tire suas dúvidas e faça sua reserva agora antes que as prateleiras esvaziem! 💥⚡&quot;</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Hook</span>
+                  <p className="text-xs text-zinc-400 italic">&quot;Quer os melhores suplementos do mercado pelo menor preço do ano?&quot;</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Beleza */}
+            <div className="bg-[#1A1A1A] p-6 rounded-3xl border border-zinc-800 hover:border-rose-500/30 transition-all">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500">
+                  ✨
+                </div>
+                <h3 className="text-xl font-bold text-white">Beleza & Skincare</h3>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Título</span>
+                  <p className="text-sm font-bold text-white">Pele de porcelana em 7 dias? Veja como!</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
+                  <p className="text-sm text-zinc-300 italic">&quot;Cansada de esconder manchas e linhas de expressão com maquiagem? ✨ Nosso sérum renovador se tornou o favorito porque entrega o que promete: uma pele radiante, clara e firme em apenas uma semana. Sinta a diferença no toque e recupere sua confiança com um tratamento profissional no conforto de casa. Aproveite nossa promoção exclusiva de lançamento e garanta o seu antes que o estoque termine! 🛍️&quot;</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Hook</span>
+                  <p className="text-xs text-zinc-400 italic">&quot;O segredo para uma pele impecável e sem manchas.&quot;</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
