@@ -168,12 +168,16 @@ export default function LandingPage() {
               </div>
               <div className="space-y-4">
                 <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
-                  <p className="text-sm text-zinc-300 italic">&quot;Aquele vestido perfeito que você tava procurando pra arrasar no fim de semana acabou de chegar! 😱 Tecido premium que modela o corpo. Últimas peças no estoque, clica em Saiba Mais antes que esgote!&quot;</p>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Título</span>
+                  <p className="text-sm font-bold text-white">Vestidos que valorizam você com preços imperdíveis hoje</p>
                 </div>
                 <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Prompt Imagem</span>
-                  <p className="text-xs text-zinc-500 font-mono">Foto de estúdio profissional, mulher brasileira vestindo vestido elegante, iluminação suave, fundo neutro, alta conversão --ar 4:5</p>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
+                  <p className="text-sm text-zinc-300 italic">&quot;Sabe aquele look que une conforto, elegância e frescor para o dia a dia no Rio? Nossa nova seleção de vestidos está com descontos especiais, mas as peças mais desejadas estão esgotando rápido. São modelos pensados para a mulher real que não abre mão do estilo. Clique agora e confira todos os detalhes no nosso perfil antes que a sua numeração acabe! ✨👗&quot;</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Hook</span>
+                  <p className="text-xs text-zinc-400 italic">&quot;O vestido perfeito para o seu próximo evento está aqui.&quot;</p>
                 </div>
               </div>
             </div>
@@ -188,12 +192,16 @@ export default function LandingPage() {
               </div>
               <div className="space-y-4">
                 <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
-                  <p className="text-sm text-zinc-300 italic">&quot;Cansado de treinar e não ver resultado? O Whey Isolado 100% puro que os maiores atletas usam tá com frete grátis só hoje. Ganhe massa magra de verdade. Clica no botão e garante o seu!&quot;</p>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Título</span>
+                  <p className="text-sm font-bold text-white">Black Friday de Suplementos: Os menores preços de SP! 🔥</p>
                 </div>
                 <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Prompt Imagem</span>
-                  <p className="text-xs text-zinc-500 font-mono">Pote de whey protein premium em fundo escuro de academia, iluminação dramática vermelha, suor no pote, estilo comercial --ar 1:1</p>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
+                  <p className="text-sm text-zinc-300 italic">&quot;Sua chance de garantir o estoque de suplementos para o ano todo com preço de atacado chegou. Selecionamos as melhores marcas de Whey, Creatina e Pré-treino com descontos reais de Black Friday. Não arrisque sua evolução com produtos duvidosos ou prazos longos de entrega. Temos estoque à pronta entrega em São Paulo e atendimento humanizado. Clique no botão abaixo, tire suas dúvidas e faça sua reserva agora antes que as prateleiras esvaziem! 💥⚡&quot;</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Hook</span>
+                  <p className="text-xs text-zinc-400 italic">&quot;Quer os melhores suplementos do mercado pelo menor preço do ano?&quot;</p>
                 </div>
               </div>
             </div>
@@ -208,12 +216,16 @@ export default function LandingPage() {
               </div>
               <div className="space-y-4">
                 <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
-                  <p className="text-sm text-zinc-300 italic">&quot;Pele de porcelana em 7 dias? Sim, é possível. Nosso sérum clareador virou febre porque funciona de verdade. Manchas e linhas de expressão sumindo. Aproveite a promo de compre 1 leve 2!&quot;</p>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Título</span>
+                  <p className="text-sm font-bold text-white">Pele de porcelana em 7 dias? Veja como!</p>
                 </div>
                 <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Prompt Imagem</span>
-                  <p className="text-xs text-zinc-500 font-mono">Close-up rosto mulher pele perfeita aplicando sérum, textura do produto visível, luz natural matinal, clean beauty --ar 9:16</p>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500 mb-2 block">Copy</span>
+                  <p className="text-sm text-zinc-300 italic">&quot;Cansada de esconder manchas e linhas de expressão com maquiagem? ✨ Nosso sérum renovador se tornou o favorito porque entrega o que promete: uma pele radiante, clara e firme em apenas uma semana. Sinta a diferença no toque e recupere sua confiança com um tratamento profissional no conforto de casa. Aproveite nossa promoção exclusiva de lançamento e garanta o seu antes que o estoque termine! 🛍️&quot;</p>
+                </div>
+                <div className="bg-[#121212] p-4 rounded-xl border border-zinc-800/50">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2 block">Hook</span>
+                  <p className="text-xs text-zinc-400 italic">&quot;O segredo para uma pele impecável e sem manchas.&quot;</p>
                 </div>
               </div>
             </div>
