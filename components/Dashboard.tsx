@@ -180,10 +180,35 @@ export function Dashboard() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative">
-      {/* Background Glows */}
-      <div className="absolute -top-24 -left-24 w-96 h-96 bg-rose-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div className="space-y-8 relative">
+      {/* Carousel Generator Banner */}
+      <div className="bg-gradient-to-r from-rose-900/40 to-purple-900/40 border border-rose-500/20 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="bg-rose-600 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md">Novo</span>
+            <h3 className="text-xl font-bold text-white flex items-center gap-2">
+              <ImageIcon className="text-rose-400" size={20} />
+              Gerador de Carrosséis
+            </h3>
+          </div>
+          <p className="text-zinc-400 text-sm max-w-xl">
+            Crie carrosséis magnéticos para Instagram e Facebook Ads em segundos. Faça upload de imagens, adicione textos persuasivos e baixe tudo pronto para anunciar.
+          </p>
+        </div>
+        <Link 
+          href="/carrossel" 
+          className="relative z-10 shrink-0 px-6 py-3 bg-white text-zinc-900 hover:bg-zinc-200 font-bold rounded-xl transition-colors flex items-center gap-2"
+        >
+          Acessar Gerador
+          <Sparkles size={16} />
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative">
+        {/* Background Glows */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-rose-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
       {/* Form Section */}
       <div className="lg:col-span-4 space-y-6 relative z-10">
@@ -544,6 +569,7 @@ export function Dashboard() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }
