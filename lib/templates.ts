@@ -2,70 +2,40 @@ export type TextPosition = 'top-left' | 'top-center' | 'top-right' | 'center-lef
 
 export interface SlideTemplate {
   textPosition: TextPosition;
-  fontSize: string;
+  fontSize: number; // Tamanho da fonte em pixels para o canvas
   textAlign: 'left' | 'center' | 'right';
 }
 
-export interface CarouselTemplate {
-  id: string;
-  name: string;
-  description: string;
-  profilePosition: TextPosition;
-  slides: SlideTemplate[];
-}
-
-export const templates: CarouselTemplate[] = [
-  {
-    id: 'mkt-insider',
-    name: 'Marketing Insider OS',
-    description: 'Estilo dinâmico com textos variando de posição a cada slide.',
-    profilePosition: 'top-right',
-    slides: [
-      { textPosition: 'bottom-center', fontSize: '48px', textAlign: 'center' }, // 1
-      { textPosition: 'top-left', fontSize: '36px', textAlign: 'left' }, // 2
-      { textPosition: 'center-right', fontSize: '42px', textAlign: 'right' }, // 3
-      { textPosition: 'bottom-left', fontSize: '36px', textAlign: 'left' }, // 4
-      { textPosition: 'center-left', fontSize: '40px', textAlign: 'left' }, // 5
-      { textPosition: 'top-center', fontSize: '38px', textAlign: 'center' }, // 6
-      { textPosition: 'bottom-right', fontSize: '36px', textAlign: 'right' }, // 7
-      { textPosition: 'center', fontSize: '40px', textAlign: 'center' }, // 8
-      { textPosition: 'top-right', fontSize: '36px', textAlign: 'right' }, // 9
-      { textPosition: 'bottom-center', fontSize: '52px', textAlign: 'center' }, // 10 (CTA)
-    ]
-  },
-  {
-    id: 'classic-center',
-    name: 'Clássico',
-    description: 'Textos sempre centralizados para máxima legibilidade.',
-    profilePosition: 'top-left',
-    slides: Array(10).fill({ textPosition: 'center', fontSize: '42px', textAlign: 'center' })
-  }
+// Template Único: Marketing Insider OS
+// 10 slides fixos com posições variadas para manter o dinamismo
+export const mktInsiderTemplate: SlideTemplate[] = [
+  { textPosition: 'bottom-center', fontSize: 64, textAlign: 'center' }, // Slide 1: Título grande embaixo
+  { textPosition: 'top-left', fontSize: 56, textAlign: 'left' },        // Slide 2: Topo esquerdo
+  { textPosition: 'center-right', fontSize: 56, textAlign: 'right' },   // Slide 3: Centro direito
+  { textPosition: 'bottom-left', fontSize: 56, textAlign: 'left' },     // Slide 4: Embaixo esquerdo
+  { textPosition: 'center-left', fontSize: 56, textAlign: 'left' },     // Slide 5: Centro esquerdo
+  { textPosition: 'top-center', fontSize: 56, textAlign: 'center' },    // Slide 6: Topo centro
+  { textPosition: 'bottom-right', fontSize: 56, textAlign: 'right' },   // Slide 7: Embaixo direito
+  { textPosition: 'center', fontSize: 60, textAlign: 'center' },        // Slide 8: Centro absoluto
+  { textPosition: 'top-right', fontSize: 56, textAlign: 'right' },      // Slide 9: Topo direito
+  { textPosition: 'bottom-center', fontSize: 72, textAlign: 'center' }, // Slide 10: CTA gigante embaixo
 ];
 
+// Utilitário para o Preview em HTML/CSS (mapeia a posição para classes do Tailwind)
 export function getPositionClasses(position: TextPosition): string {
   switch (position) {
-    case 'top-left': return 'top-10 left-10 items-start justify-start';
-    case 'top-center': return 'top-10 left-10 right-10 items-start justify-center';
-    case 'top-right': return 'top-10 right-10 items-start justify-end';
+    case 'top-left': return 'top-24 left-12 right-24 items-start text-left';
+    case 'top-center': return 'top-24 left-12 right-12 items-center text-center';
+    case 'top-right': return 'top-24 right-12 left-24 items-end text-right';
     
-    case 'center-left': return 'top-1/2 -translate-y-1/2 left-10 items-center justify-start';
-    case 'center': return 'top-1/2 -translate-y-1/2 left-10 right-10 items-center justify-center';
-    case 'center-right': return 'top-1/2 -translate-y-1/2 right-10 items-center justify-end';
+    case 'center-left': return 'top-1/2 -translate-y-1/2 left-12 right-24 items-start text-left';
+    case 'center': return 'top-1/2 -translate-y-1/2 left-12 right-12 items-center text-center';
+    case 'center-right': return 'top-1/2 -translate-y-1/2 right-12 left-24 items-end text-right';
     
-    case 'bottom-left': return 'bottom-10 left-10 items-end justify-start';
-    case 'bottom-center': return 'bottom-10 left-10 right-10 items-end justify-center';
-    case 'bottom-right': return 'bottom-10 right-10 items-end justify-end';
+    case 'bottom-left': return 'bottom-24 left-12 right-24 items-start text-left';
+    case 'bottom-center': return 'bottom-24 left-12 right-12 items-center text-center';
+    case 'bottom-right': return 'bottom-24 right-12 left-24 items-end text-right';
     
-    default: return 'bottom-10 left-10 right-10 items-end justify-center';
-  }
-}
-
-export function getProfilePositionClasses(position: TextPosition): string {
-  switch (position) {
-    case 'top-left': return 'top-6 left-6 flex-row';
-    case 'top-right': return 'top-6 right-6 flex-row-reverse';
-    case 'bottom-left': return 'bottom-6 left-6 flex-row';
-    case 'bottom-right': return 'bottom-6 right-6 flex-row-reverse';
-    default: return 'top-6 left-6 flex-row';
+    default: return 'bottom-24 left-12 right-12 items-center text-center';
   }
 }

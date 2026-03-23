@@ -5,10 +5,10 @@ import { useAuth } from './AuthProvider';
 import { useRouter } from 'next/navigation';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, Trash2, Download, Image as ImageIcon, UserCircle, AtSign, Loader2, ChevronLeft, ChevronRight, Type, LayoutTemplate, User } from 'lucide-react';
+import { Upload, Trash2, Download, Image as ImageIcon, UserCircle, AtSign, Loader2, ChevronLeft, ChevronRight, Type, User, Lock, Sparkles } from 'lucide-react';
 import JSZip from 'jszip';
-import html2canvas from 'html2canvas';
-import { templates, getPositionClasses, getProfilePositionClasses } from '../lib/templates';
+import { mktInsiderTemplate, getPositionClasses } from '../lib/templates';
+import { renderSlideToCanvas } from '../lib/canvasUtils';
 
 interface CarouselSlide {
   id: string;
@@ -27,19 +27,16 @@ export function CarouselGenerator() {
   const [instagramHandle, setInstagramHandle] = useState<string>('');
   const [syncProfile, setSyncProfile] = useState<boolean>(true);
   const [batchText, setBatchText] = useState<string>('');
-  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(templates[0].id);
   const [isGenerating, setIsGenerating] = useState(false);
   
+  // Paywall State
+  const [showPaywall, setShowPaywall] = useState(false);
+
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const selectedTemplate = templates.find(t => t.id === selectedTemplateId) || templates[0];
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/');
-    }
-  }, [user, loading, router]);
+  // Usamos apenas o template Marketing Insider OS
+  const selectedTemplate = mktInsiderTemplate;
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -117,6 +114,12 @@ export function CarouselGenerator() {
   };
 
   const generateZip = async () => {
+    // Verifica Paywall ANTES de gerar
+    if (!user) {
+      setShowPaywall(true);
+      return;
+    }
+
     if (slides.length < 2) {
       alert('Adicione pelo menos 2 imagens para gerar o carrossel.');
       return;
@@ -125,179 +128,29 @@ export function CarouselGenerator() {
     setIsGenerating(true);
     try {
       const zip = new JSZip();
-      
-      const hiddenContainer = document.createElement('div');
-      hiddenContainer.style.position = 'absolute';
-      hiddenContainer.style.left = '-9999px';
-      hiddenContainer.style.top = '0';
-      hiddenContainer.style.display = 'flex';
-      hiddenContainer.style.flexDirection = 'column';
-      hiddenContainer.style.gap = '20px';
-      document.body.appendChild(hiddenContainer);
 
       for (let i = 0; i < slides.length; i++) {
         const slide = slides[i];
-        const slideTemplate = selectedTemplate.slides[i % selectedTemplate.slides.length];
-        
-        const slideEl = document.createElement('div');
-        slideEl.style.width = '1080px';
-        slideEl.style.height = '1080px';
-        slideEl.style.position = 'relative';
-        slideEl.style.backgroundColor = '#000';
-        slideEl.style.overflow = 'hidden';
-        slideEl.style.display = 'flex';
-        
-        // Background Image
-        const img = document.createElement('img');
-        img.src = slide.imageUrl;
-        img.style.position = 'absolute';
-        img.style.inset = '0';
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.objectFit = 'cover';
-        slideEl.appendChild(img);
-
-        // Gradient Overlay
-        const overlay = document.createElement('div');
-        overlay.style.position = 'absolute';
-        overlay.style.inset = '0';
-        overlay.style.background = 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%)';
-        slideEl.appendChild(overlay);
-
-        // Profile Info
+        const slideTemplate = selectedTemplate[i % selectedTemplate.length];
         const showProfile = syncProfile || i === 0;
-        if (showProfile && (profilePic || profileName || instagramHandle)) {
-          const header = document.createElement('div');
-          header.style.position = 'absolute';
-          header.style.display = 'flex';
-          header.style.alignItems = 'center';
-          header.style.gap = '16px';
-          header.style.zIndex = '10';
-
-          // Apply profile position
-          const isTop = selectedTemplate.profilePosition.includes('top');
-          const isLeft = selectedTemplate.profilePosition.includes('left');
-          
-          if (isTop) header.style.top = '40px';
-          else header.style.bottom = '40px';
-          
-          if (isLeft) {
-            header.style.left = '40px';
-            header.style.flexDirection = 'row';
-          } else {
-            header.style.right = '40px';
-            header.style.flexDirection = 'row-reverse';
+        
+        // Renderiza o slide no canvas e obtém o blob (JPEG 0.85)
+        const blob = await renderSlideToCanvas(
+          slide.imageUrl,
+          slide.text,
+          slideTemplate,
+          {
+            pic: profilePic,
+            name: profileName,
+            handle: instagramHandle,
+            show: showProfile
           }
+        );
 
-          if (profilePic) {
-            const pfp = document.createElement('img');
-            pfp.src = profilePic;
-            pfp.style.width = '80px';
-            pfp.style.height = '80px';
-            pfp.style.borderRadius = '50%';
-            pfp.style.objectFit = 'cover';
-            pfp.style.border = '3px solid white';
-            header.appendChild(pfp);
-          }
-
-          const textContainer = document.createElement('div');
-          textContainer.style.display = 'flex';
-          textContainer.style.flexDirection = 'column';
-          if (!isLeft) textContainer.style.alignItems = 'flex-end';
-
-          if (profileName) {
-            const nameEl = document.createElement('div');
-            nameEl.innerText = profileName;
-            nameEl.style.color = 'white';
-            nameEl.style.fontFamily = 'Inter, sans-serif';
-            nameEl.style.fontSize = '28px';
-            nameEl.style.fontWeight = 'bold';
-            nameEl.style.textShadow = '0px 2px 4px rgba(0,0,0,0.5)';
-            textContainer.appendChild(nameEl);
-          }
-
-          if (instagramHandle) {
-            const handleEl = document.createElement('div');
-            handleEl.innerText = instagramHandle;
-            handleEl.style.color = 'rgba(255,255,255,0.8)';
-            handleEl.style.fontFamily = 'Inter, sans-serif';
-            handleEl.style.fontSize = '24px';
-            handleEl.style.textShadow = '0px 2px 4px rgba(0,0,0,0.5)';
-            textContainer.appendChild(handleEl);
-          }
-          
-          if (profileName || instagramHandle) {
-            header.appendChild(textContainer);
-          }
-          
-          slideEl.appendChild(header);
-        }
-
-        // Text
-        if (slide.text) {
-          const textContainer = document.createElement('div');
-          textContainer.style.position = 'absolute';
-          textContainer.style.zIndex = '10';
-          textContainer.style.display = 'flex';
-          textContainer.style.flexDirection = 'column';
-          
-          // Apply text position based on template
-          const pos = slideTemplate.textPosition;
-          if (pos.includes('top')) textContainer.style.top = '140px';
-          else if (pos.includes('bottom')) textContainer.style.bottom = '140px';
-          else {
-            textContainer.style.top = '50%';
-            textContainer.style.transform = 'translateY(-50%)';
-          }
-
-          if (pos.includes('left')) {
-            textContainer.style.left = '60px';
-            textContainer.style.right = '200px';
-            textContainer.style.alignItems = 'flex-start';
-            textContainer.style.textAlign = 'left';
-          } else if (pos.includes('right')) {
-            textContainer.style.right = '60px';
-            textContainer.style.left = '200px';
-            textContainer.style.alignItems = 'flex-end';
-            textContainer.style.textAlign = 'right';
-          } else {
-            textContainer.style.left = '60px';
-            textContainer.style.right = '60px';
-            textContainer.style.alignItems = 'center';
-            textContainer.style.textAlign = 'center';
-          }
-
-          const textEl = document.createElement('p');
-          textEl.innerText = slide.text;
-          textEl.style.color = 'white';
-          textEl.style.fontFamily = 'Inter, sans-serif';
-          textEl.style.fontSize = slideTemplate.fontSize;
-          textEl.style.fontWeight = 'bold';
-          textEl.style.lineHeight = '1.2';
-          textEl.style.textShadow = '0px 4px 8px rgba(0,0,0,0.8)';
-          textEl.style.whiteSpace = 'pre-wrap';
-          textContainer.appendChild(textEl);
-          
-          slideEl.appendChild(textContainer);
-        }
-
-        hiddenContainer.appendChild(slideEl);
-
-        await new Promise(resolve => setTimeout(resolve, 100));
-
-        const canvas = await html2canvas(slideEl, {
-          scale: 1,
-          useCORS: true,
-          backgroundColor: '#000000',
-        });
-
-        const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.9));
         if (blob) {
           zip.file(`slide-${i + 1}.jpg`, blob);
         }
       }
-
-      document.body.removeChild(hiddenContainer);
 
       const content = await zip.generateAsync({ type: 'blob' });
       const link = document.createElement('a');
@@ -321,15 +174,21 @@ export function CarouselGenerator() {
     );
   }
 
-  if (!user) return null;
-
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-[#121212] text-zinc-100 py-8">
+    <div className="min-h-[calc(100vh-64px)] bg-[#121212] text-zinc-100 py-8 relative">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Gerador de Carrosséis Pro</h1>
-          <p className="text-zinc-400">Crie carrosséis magnéticos com templates profissionais.</p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-white mb-2">Gerador de Carrosséis Pro</h1>
+            <p className="text-zinc-400">Crie carrosséis magnéticos com templates profissionais.</p>
+          </div>
+          {!user && (
+            <div className="bg-zinc-800/50 border border-zinc-700/50 text-zinc-400 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+              <Sparkles size={16} />
+              Preview Gratuito
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -337,30 +196,6 @@ export function CarouselGenerator() {
           {/* Controls Section */}
           <div className="lg:col-span-5 space-y-6">
             
-            {/* Template Selection */}
-            <div className="bg-[#1A1A1A] border border-zinc-800 rounded-2xl p-6">
-              <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                <LayoutTemplate size={20} className="text-rose-500" />
-                Template
-              </h2>
-              <div className="grid grid-cols-2 gap-4">
-                {templates.map(template => (
-                  <button
-                    key={template.id}
-                    onClick={() => setSelectedTemplateId(template.id)}
-                    className={`p-4 rounded-xl border text-left transition-all ${
-                      selectedTemplateId === template.id 
-                        ? 'border-rose-500 bg-rose-500/10' 
-                        : 'border-zinc-800 bg-[#121212] hover:border-zinc-600'
-                    }`}
-                  >
-                    <h3 className="font-bold text-white mb-1">{template.name}</h3>
-                    <p className="text-xs text-zinc-400">{template.description}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
             {/* Profile Section */}
             <div className="bg-[#1A1A1A] border border-zinc-800 rounded-2xl p-6">
               <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
@@ -498,12 +333,21 @@ export function CarouselGenerator() {
               <button
                 onClick={generateZip}
                 disabled={isGenerating}
-                className="w-full py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-rose-600/20"
+                className={`w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg ${
+                  !user 
+                    ? 'bg-zinc-800 hover:bg-zinc-700 text-white shadow-none border border-zinc-700' 
+                    : 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/20'
+                }`}
               >
                 {isGenerating ? (
                   <>
                     <Loader2 className="animate-spin" size={20} />
                     Gerando Imagens...
+                  </>
+                ) : !user ? (
+                  <>
+                    <Lock size={20} className="text-rose-500" />
+                    Desbloquear Exportação
                   </>
                 ) : (
                   <>
@@ -528,51 +372,52 @@ export function CarouselGenerator() {
               </h2>
 
               {slides.length === 0 ? (
-                <div className="aspect-square w-full max-w-lg mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl flex flex-col items-center justify-center text-zinc-500">
+                <div className="aspect-[4/5] w-full max-w-md mx-auto bg-zinc-900 border border-zinc-800 rounded-2xl flex flex-col items-center justify-center text-zinc-500">
                   <ImageIcon size={48} className="mb-4 opacity-50" />
                   <p>Faça upload de imagens para ver o preview</p>
                 </div>
               ) : (
-                <div className="relative max-w-lg mx-auto">
+                <div className="relative max-w-md mx-auto">
                   <div className="overflow-hidden rounded-2xl border border-zinc-800" ref={emblaRef}>
                     <div className="flex">
                       {slides.map((slide, index) => {
-                        const slideTemplate = selectedTemplate.slides[index % selectedTemplate.slides.length];
+                        const slideTemplate = selectedTemplate[index % selectedTemplate.length];
                         const showProfile = syncProfile || index === 0;
 
                         return (
-                          <div key={slide.id} className="flex-[0_0_100%] min-w-0 relative aspect-square bg-black">
+                          <div key={slide.id} className="flex-[0_0_100%] min-w-0 relative aspect-[4/5] bg-black">
+                            {/* Fundo Preto Uniforme + Imagem Cover */}
                             <img 
                               src={slide.imageUrl} 
                               alt={`Preview ${index + 1}`} 
                               className="absolute inset-0 w-full h-full object-cover"
                             />
                             
-                            {/* Gradient Overlay */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+                            {/* Gradient Overlay (Escuro no topo e fundo) */}
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/80 pointer-events-none"></div>
 
-                            {/* Header / Profile */}
+                            {/* Header / Profile (Top-Right) */}
                             {showProfile && (profilePic || profileName || instagramHandle) && (
-                              <div className={`absolute flex items-center gap-3 z-10 ${getProfilePositionClasses(selectedTemplate.profilePosition)}`}>
-                                {profilePic && (
-                                  <img 
-                                    src={profilePic} 
-                                    alt="Profile" 
-                                    className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
-                                  />
-                                )}
-                                <div className={`flex flex-col ${selectedTemplate.profilePosition.includes('left') ? 'items-start' : 'items-end'}`}>
+                              <div className="absolute top-6 right-6 flex items-center gap-3 z-10">
+                                <div className="flex flex-col items-end">
                                   {profileName && (
-                                    <span className="text-white font-bold text-base drop-shadow-md leading-tight">
+                                    <span className="text-white font-bold text-sm drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-tight">
                                       {profileName}
                                     </span>
                                   )}
                                   {instagramHandle && (
-                                    <span className="text-white/80 text-sm drop-shadow-md leading-tight">
+                                    <span className="text-white/80 text-xs drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-tight">
                                       {instagramHandle}
                                     </span>
                                   )}
                                 </div>
+                                {profilePic && (
+                                  <img 
+                                    src={profilePic} 
+                                    alt="Profile" 
+                                    className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
+                                  />
+                                )}
                               </div>
                             )}
 
@@ -580,9 +425,9 @@ export function CarouselGenerator() {
                             {slide.text && (
                               <div className={`absolute flex flex-col z-10 ${getPositionClasses(slideTemplate.textPosition)}`}>
                                 <p 
-                                  className="text-white font-bold leading-tight drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] whitespace-pre-wrap"
+                                  className="text-white font-bold leading-tight drop-shadow-[2px_2px_8px_rgba(0,0,0,1)] whitespace-pre-wrap"
                                   style={{ 
-                                    fontSize: `calc(${slideTemplate.fontSize} * 0.7)`, // Scale down for preview
+                                    fontSize: `calc(${slideTemplate.fontSize}px * 0.45)`, // Scale down for preview
                                     textAlign: slideTemplate.textAlign 
                                   }}
                                 >
@@ -651,6 +496,42 @@ export function CarouselGenerator() {
 
         </div>
       </div>
+
+      {/* Paywall Modal */}
+      {showPaywall && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#1A1A1A] border border-zinc-800 rounded-3xl max-w-md w-full p-8 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-500 to-purple-600"></div>
+            
+            <div className="w-16 h-16 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Lock className="text-rose-500" size={32} />
+            </div>
+            
+            <h2 className="text-2xl font-bold text-white mb-3">Desbloqueie a Exportação</h2>
+            <p className="text-zinc-400 mb-8">
+              Para baixar seus carrosséis em alta qualidade e sem limites, assine o plano Pro.
+            </p>
+            
+            <div className="space-y-3">
+              <button 
+                onClick={() => {
+                  const hotmartUrl = new URL('https://pay.hotmart.com/W104924135B?checkoutMode=10');
+                  window.location.href = hotmartUrl.toString();
+                }}
+                className="w-full py-3.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-rose-600/20"
+              >
+                Assinar Plano Pro
+              </button>
+              <button 
+                onClick={() => setShowPaywall(false)}
+                className="w-full py-3.5 bg-transparent hover:bg-zinc-800 text-zinc-400 rounded-xl font-medium transition-colors"
+              >
+                Voltar para edição
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

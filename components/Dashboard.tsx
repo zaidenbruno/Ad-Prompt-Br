@@ -17,7 +17,7 @@ export function Dashboard() {
   const [modelType, setModelType] = useState<'flash' | 'pro'>('flash');
   const [isExporting, setIsExporting] = useState(false);
   const [generationCount, setGenerationCount] = useState<number | null>(null);
-
+  
   const [inputs, setInputs] = useState({
     niche: '',
     location: '',
@@ -28,10 +28,19 @@ export function Dashboard() {
     inspiration: '',
   });
 
+  // Paywall State
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [hasUsedTrial, setHasUsedTrial] = useState(false);
+
   // Load from sessionStorage on mount
   useEffect(() => {
     const savedInputs = sessionStorage.getItem('adPromptInputs');
     const savedResults = sessionStorage.getItem('adPromptResults');
+    const trialStatus = localStorage.getItem('adprompt_generator_trial_used');
+    
+    if (trialStatus === 'true') {
+      setHasUsedTrial(true);
+    }
     
     if (savedInputs) {
       try { setInputs(JSON.parse(savedInputs)); } catch (e) {}
@@ -77,8 +86,10 @@ export function Dashboard() {
 
     // Check limits
     if (!user) {
-      alert('Crie sua conta gratuita para gerar seus criativos! É rápido e não precisa de cartão.');
-      return;
+      if (hasUsedTrial) {
+        setShowPaywall(true);
+        return;
+      }
     } else if (!isPro) {
       // Check user generations from Supabase
       const { count, error } = await supabase
@@ -113,9 +124,11 @@ export function Dashboard() {
           console.error('Supabase insert error:', error);
         }
       } else {
-        // Increment anon count
+        // Increment anon count and mark trial as used
         const currentCount = parseInt(localStorage.getItem('anon_generations') || '0');
         localStorage.setItem('anon_generations', (currentCount + 1).toString());
+        localStorage.setItem('adprompt_generator_trial_used', 'true');
+        setHasUsedTrial(true);
       }
 
       setResults(generatedData);
@@ -348,17 +361,26 @@ export function Dashboard() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-4 rounded-2xl transition-all disabled:opacity-70 flex items-center justify-center gap-2 mt-4 shadow-lg shadow-rose-600/20 active:scale-[0.98]"
+              className={`w-full font-bold py-4 px-4 rounded-2xl transition-all disabled:opacity-70 flex items-center justify-center gap-2 mt-4 shadow-lg active:scale-[0.98] ${
+                !user && hasUsedTrial 
+                  ? 'bg-zinc-800 hover:bg-zinc-700 text-white shadow-none border border-zinc-700' 
+                  : 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/20'
+              }`}
             >
               {loading ? (
                 <>
                   <Loader2 className="animate-spin" size={20} />
                   Gerando Criativos...
                 </>
+              ) : !user && hasUsedTrial ? (
+                <>
+                  <Lock size={20} className="text-rose-500" />
+                  Desbloquear Gerador
+                </>
               ) : !user ? (
                 <>
                   <Sparkles size={20} className="text-yellow-300" />
-                  Entrar e Gerar Grátis 🔥
+                  Gerar 1º Teste Grátis 🔥
                 </>
               ) : (
                 <>
@@ -569,6 +591,42 @@ export function Dashboard() {
           </div>
         )}
       </div>
+      
+      {/* Paywall Modal */}
+      {showPaywall && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-[#1A1A1A] border border-zinc-800 rounded-3xl max-w-md w-full p-8 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-rose-500 to-purple-600"></div>
+            
+            <div className="w-16 h-16 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Lock className="text-rose-500" size={32} />
+            </div>
+            
+            <h2 className="text-2xl font-bold text-white mb-3">Desbloqueie o Gerador</h2>
+            <p className="text-zinc-400 mb-8">
+              Você já utilizou o seu teste gratuito do Gerador de Criativos. Para continuar gerando prompts e copies de alta conversão, assine o plano Pro.
+            </p>
+            
+            <div className="space-y-3">
+              <button 
+                onClick={() => {
+                  const hotmartUrl = new URL('https://pay.hotmart.com/W104924135B?checkoutMode=10');
+                  window.location.href = hotmartUrl.toString();
+                }}
+                className="w-full py-3.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold transition-colors shadow-lg shadow-rose-600/20"
+              >
+                Assinar Plano Pro
+              </button>
+              <button 
+                onClick={() => setShowPaywall(false)}
+                className="w-full py-3.5 bg-transparent hover:bg-zinc-800 text-zinc-400 rounded-xl font-medium transition-colors"
+              >
+                Voltar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     </div>
   );
