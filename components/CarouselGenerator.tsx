@@ -144,7 +144,8 @@ export function CarouselGenerator() {
             name: profileName,
             handle: instagramHandle,
             show: showProfile
-          }
+          },
+          i // Passando o índice para o canvasUtils
         );
 
         if (blob) {
@@ -384,29 +385,78 @@ export function CarouselGenerator() {
                         const slideTemplate = selectedTemplate[index % selectedTemplate.length];
                         const showProfile = syncProfile || index === 0;
 
+                        const isCover = index === 0;
+                        const textLines = slide.text.split('\n');
+                        const titleText = textLines[0] || '';
+                        const bodyText = textLines.slice(1).join('\n').trim();
+
                         return (
-                          <div key={slide.id} className="flex-[0_0_100%] min-w-0 relative aspect-[4/5] bg-black">
-                            {/* Fundo Preto Uniforme + Imagem Cover */}
-                            <img 
-                              src={slide.imageUrl} 
-                              alt={`Preview ${index + 1}`} 
-                              className="absolute inset-0 w-full h-full object-cover"
-                            />
+                          <div key={slide.id} className={`flex-[0_0_100%] min-w-0 relative aspect-[4/5] overflow-hidden ${isCover ? 'bg-black' : 'bg-[#1A1A1A] p-8 flex flex-col'}`}>
                             
-                            {/* Gradient Overlay (Escuro no topo e fundo) */}
-                            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-black/80 pointer-events-none"></div>
+                            {isCover ? (
+                              // ==========================================
+                              // PREVIEW SLIDE 1: CAPA
+                              // ==========================================
+                              <>
+                                <img 
+                                  src={slide.imageUrl} 
+                                  alt={`Preview ${index + 1}`} 
+                                  className="absolute inset-0 w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent pointer-events-none"></div>
+                                
+                                <div className="absolute bottom-12 left-8 right-8 text-center z-10">
+                                  <h1 className="text-white font-bold text-3xl shadow-lg" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.8)' }}>
+                                    {slide.text}
+                                  </h1>
+                                </div>
+                              </>
+                            ) : (
+                              // ==========================================
+                              // PREVIEW SLIDES 2-10: CONTEÚDO
+                              // ==========================================
+                              <>
+                                {/* Text Area */}
+                                <div className="mt-12 mb-6 z-10">
+                                  {titleText && (
+                                    <h2 className="text-white font-bold text-2xl mb-3 leading-tight">
+                                      {titleText}
+                                    </h2>
+                                  )}
+                                  {bodyText && (
+                                    <p className="text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap">
+                                      {bodyText}
+                                    </p>
+                                  )}
+                                </div>
+
+                                {/* Image Area */}
+                                {slide.imageUrl && (
+                                  <div className="relative flex-1 rounded-2xl overflow-hidden bg-black/20 z-10">
+                                    <img 
+                                      src={slide.imageUrl} 
+                                      alt={`Preview ${index + 1}`} 
+                                      className="absolute inset-0 w-full h-full object-cover"
+                                    />
+                                  </div>
+                                )}
+
+                                {/* Footer Bar */}
+                                <div className="h-1.5 w-16 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 rounded-full mt-6 z-10" />
+                              </>
+                            )}
 
                             {/* Header / Profile (Top-Right) */}
                             {showProfile && (profilePic || profileName || instagramHandle) && (
-                              <div className="absolute top-6 right-6 flex items-center gap-3 z-10">
+                              <div className={`absolute top-6 right-6 flex items-center gap-3 z-20 ${isCover ? 'drop-shadow-lg' : ''}`}>
                                 <div className="flex flex-col items-end">
                                   {profileName && (
-                                    <span className="text-white font-bold text-sm drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-tight">
+                                    <span className={`font-bold leading-tight ${isCover ? 'text-sm text-white' : 'text-xs text-white'}`}>
                                       {profileName}
                                     </span>
                                   )}
                                   {instagramHandle && (
-                                    <span className="text-white/80 text-xs drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-tight">
+                                    <span className={`leading-tight ${isCover ? 'text-xs text-white/90' : 'text-[10px] text-zinc-400'}`}>
                                       {instagramHandle}
                                     </span>
                                   )}
@@ -415,24 +465,9 @@ export function CarouselGenerator() {
                                   <img 
                                     src={profilePic} 
                                     alt="Profile" 
-                                    className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm"
+                                    className={`rounded-full object-cover border-2 ${isCover ? 'w-10 h-10 border-white' : 'w-8 h-8 border-zinc-700'}`}
                                   />
                                 )}
-                              </div>
-                            )}
-
-                            {/* Text Overlay */}
-                            {slide.text && (
-                              <div className={`absolute flex flex-col z-10 ${getPositionClasses(slideTemplate.textPosition)}`}>
-                                <p 
-                                  className="text-white font-bold leading-tight drop-shadow-[2px_2px_8px_rgba(0,0,0,1)] whitespace-pre-wrap"
-                                  style={{ 
-                                    fontSize: `calc(${slideTemplate.fontSize}px * 0.45)`, // Scale down for preview
-                                    textAlign: slideTemplate.textAlign 
-                                  }}
-                                >
-                                  {slide.text}
-                                </p>
                               </div>
                             )}
                           </div>
